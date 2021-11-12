@@ -71,7 +71,7 @@ public class ListGenerator extends ChestUI {
             lore.add("");
             lore.add("§7Random:");
             chances.forEach((key, value) -> {
-                lore.add(key);
+                lore.add(key.toString());
             });
             meta.setLore(lore);
             item.setItemMeta(meta);
