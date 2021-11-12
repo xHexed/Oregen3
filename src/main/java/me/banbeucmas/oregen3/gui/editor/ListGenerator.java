@@ -1,6 +1,7 @@
 package me.banbeucmas.oregen3.gui.editor;
 
 import com.cryptomorin.xseries.XMaterial;
+import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.EditorGUI;
@@ -9,6 +10,8 @@ import me.banbeucmas.oregen3.managers.items.SkullIndex;
 import me.banbeucmas.oregen3.managers.ui.PlayerUI;
 import me.banbeucmas.oregen3.managers.ui.chest.ChestUI;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -25,21 +28,22 @@ public class ListGenerator extends ChestUI {
     private int page;
 
     public ListGenerator(Player player, EditorGUI editorGUI, int page) {
-        super(player, "Generators [p.%page]".replace("%page", String.valueOf(page)), 6);
+        super(player, "Generators [p.%page]".replace("%page", String.valueOf(page + 1)), 6);
         this.page = page;
 
         for (int i = 0; i < 9; i++) set(i, 0, BORDER, null);
-        set(1, 0, new ItemBuilder(XMaterial.ARROW.parseMaterial())
+        set(0, 0, new ItemBuilder(XMaterial.ARROW.parseMaterial())
                 .setName("§e <- Go Back ")
                 .build(), event -> {
             PlayerUI.openUI(player, editorGUI);
         });
         renderPage();
+        for (int i = 0; i < 9; i++) set(i, 5, BORDER, null);
     }
 
     private void renderPage() {
         final Map<String, Generator> map = DataManager.getChoosers();
-        final List<Generator> choosers = new ArrayList<Generator>(map.values());
+        final List<Generator> choosers = new ArrayList<>(map.values());
         
         if (page > 0) set(2, 0, new ItemBuilder(SkullIndex.PREVIOUS).setName("§e <- Previous Page ").build(), event -> {
             page--;
@@ -59,7 +63,6 @@ public class ListGenerator extends ChestUI {
 
             Generator info = choosers.get(genIndex);
             ItemStack item = XMaterial.COBBLESTONE.parseItem();
-            Map<Material, Double> chances = info.getChances();
 
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName(info.getId());
@@ -69,14 +72,14 @@ public class ListGenerator extends ChestUI {
             lore.add("§7Priority: " + info.getPriority());
             lore.add("§7Level: " + info.getLevel());
             lore.add("");
-            lore.add("§7Random:");
-            chances.forEach((key, value) -> {
-                lore.add(key.toString());
-            });
+            lore.add("§eClick to edit.");
             meta.setLore(lore);
             item.setItemMeta(meta);
 
-            set(i % 9, 1 + (i / 9), item, null);
+            set(i % 9, 1 + (i / 9), item, event -> {
+                MenuGenerator ui = new MenuGenerator(player, this, info);
+
+            });
         }
     }
 
