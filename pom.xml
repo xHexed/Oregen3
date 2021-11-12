@@ -155,10 +155,10 @@
         </dependency>
         <dependency>
             <groupId>com.bgsoftware</groupId>
-            <artifactId>SuperiorSkyblockAPI</artifactId>
-            <version>latest</version>
+            <artifactId>SuperiorSkyblock2</artifactId>
+            <version>1.8.1.350</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/SuperiorSkyblock2API.jar</systemPath>
+            <systemPath>${project.basedir}/lib/SuperiorSkyblock2-1.8.1-b350.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.Th0rgal</groupId>
