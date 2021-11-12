@@ -14,6 +14,7 @@ import me.banbeucmas.oregen3.handlers.event.BlockEventHandler;
 import me.banbeucmas.oregen3.handlers.event.SyncBlockEventHandler;
 import me.banbeucmas.oregen3.hooks.placeholder.PlaceholderHandler;
 import me.banbeucmas.oregen3.hooks.skyblock.*;
+import me.banbeucmas.oregen3.implementations.events.InventoryEventsHandler;
 import me.banbeucmas.oregen3.listeners.*;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import net.milkbowl.vault.permission.Permission;
@@ -109,6 +110,8 @@ public final class Oregen3 extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryEventsHandler(this), this);
+
     }
 
     public void reload() {
