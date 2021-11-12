@@ -38,7 +38,8 @@ public class ListGenerator extends ChestUI {
     }
 
     private void renderPage() {
-        final List<String, Generator> choosers = DataManager.getChoosers();
+        final Map<String, Generator> map = DataManager.getChoosers();
+        final List<Generator> choosers = new ArrayList<Generator>(map.values());
         
         if (page > 0) set(2, 0, new ItemBuilder(SkullIndex.PREVIOUS).setName("§e <- Previous Page ").build(), event -> {
             page--;
