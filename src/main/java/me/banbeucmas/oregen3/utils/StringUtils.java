@@ -4,6 +4,8 @@ import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 
+import java.util.List;
+import java.util.regex.Matcher;
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
@@ -146,4 +148,5 @@ public class StringUtils {
     private static boolean isNumber(char c) {
         return c >= '0' && c <= '9';
     }
+
 }
