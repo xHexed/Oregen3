@@ -72,6 +72,7 @@ public class ListGenerator extends ChestUI {
             chances.forEach((key, value) -> {
                 lore.add(key.name());
             });
+            lore.add("");
 
             set(i % 9, 1 + (i / 9), item, null);
         }
