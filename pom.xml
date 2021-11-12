@@ -93,6 +93,10 @@
             <id>savagelabs</id>
             <url>https://nexus.savagelabs.net/repository/maven-releases/</url>
         </repository>
+        <repository>
+            <id>bg-repo</id>
+            <url>https://repo.bg-software.com/repository/api/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -150,9 +154,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.OmerBenGera</groupId>
+            <groupId>com.bgsoftware</groupId>
             <artifactId>SuperiorSkyblockAPI</artifactId>
-            <version>b18</version>
+            <version>latest</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
