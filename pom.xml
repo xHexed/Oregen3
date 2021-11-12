@@ -82,6 +82,10 @@
             <url>https://jitpack.io</url>
         </repository>
         <repository>
+            <id>public</id>
+            <url>https://repo.songoda.com/repository/public/</url>
+        </repository>
+        <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
