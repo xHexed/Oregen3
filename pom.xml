@@ -82,10 +82,6 @@
             <url>https://jitpack.io</url>
         </repository>
         <repository>
-            <id>public</id>
-            <url>https://repo.songoda.com/repository/public/</url>
-        </repository>
-        <repository>
             <id>placeholderapi</id>
             <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
@@ -157,7 +153,8 @@
             <groupId>com.bgsoftware</groupId>
             <artifactId>SuperiorSkyblockAPI</artifactId>
             <version>latest</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/SuperiorSkyblock2API.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.Th0rgal</groupId>
