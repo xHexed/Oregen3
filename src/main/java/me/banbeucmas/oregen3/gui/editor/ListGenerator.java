@@ -58,7 +58,6 @@ public class ListGenerator extends ChestUI {
 
             Generator info = choosers.get(genIndex);
             ItemStack item = XMaterial.COBBLESTONE.parseItem();
-            Map<Material, Double> chances = info.getChances();
 
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName(info.getId());
@@ -67,11 +66,6 @@ public class ListGenerator extends ChestUI {
             lore.add("§7Permission: " + info.getPermission());
             lore.add("§7Priority: " + info.getPriority());
             lore.add("§7Level: " + info.getLevel());
-            lore.add("");
-            lore.add("§7Random:");
-            chances.forEach((key, value) -> {
-                lore.add(key.name());
-            });
             lore.add("");
 
             set(i % 9, 1 + (i / 9), item, null);
