@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +43,8 @@ public class ListGenerator extends ChestUI {
     }
 
     private void renderPage() {
-        final Map<String, Generator> map = DataManager.getChoosers();
-        final List<Generator> choosers = new ArrayList<>(map.values());
+        Map<String, Generator> map = DataManager.getChoosers();
+        List<Generator> choosers = new ArrayList<>(map.values());
         
         if (page > 0) set(2, 0, new ItemBuilder(SkullIndex.PREVIOUS).setName("§e <- Previous Page ").build(), event -> {
             page--;
@@ -62,15 +63,21 @@ public class ListGenerator extends ChestUI {
             }
 
             Generator info = choosers.get(genIndex);
+            //TODO: Fix null map
+//            Map<Material, Double> chances = info.getChances();
+//            System.out.println(chances);
             ItemStack item = XMaterial.COBBLESTONE.parseItem();
 
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(info.getId());
+            meta.setDisplayName("§7Generator §6" + info.getId());
             List<String> lore = new ArrayList<>();
             lore.add("");
             lore.add("§7Permission: " + info.getPermission());
             lore.add("§7Priority: " + info.getPriority());
             lore.add("§7Level: " + info.getLevel());
+//            lore.add("");
+//            lore.add("§7Random:");
+//            lore.add("");
             lore.add("");
             lore.add("§eClick to edit.");
             meta.setLore(lore);
