@@ -7,7 +7,6 @@ import me.banbeucmas.oregen3.managers.ui.PlayerUI;
 import me.banbeucmas.oregen3.managers.ui.chest.ChestUI;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class MenuGenerator extends ChestUI {
 

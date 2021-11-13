@@ -1,7 +1,6 @@
 package me.banbeucmas.oregen3.gui.editor;
 
 import com.cryptomorin.xseries.XMaterial;
-import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.EditorGUI;
@@ -9,16 +8,12 @@ import me.banbeucmas.oregen3.managers.items.ItemBuilder;
 import me.banbeucmas.oregen3.managers.items.SkullIndex;
 import me.banbeucmas.oregen3.managers.ui.PlayerUI;
 import me.banbeucmas.oregen3.managers.ui.chest.ChestUI;
-import org.bukkit.Material;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +45,7 @@ public class ListGenerator extends ChestUI {
             page--;
             renderPage();
         });
-        if ((page + 1) * 36 < choosers.size()) set(7, 0, new ItemBuilder(SkullIndex.NEXT).setName("§e Next Page -> ").build(), event -> {
+        if ((page + 1) * 36 < choosers.size()) set(6, 0, new ItemBuilder(SkullIndex.NEXT).setName("§e Next Page -> ").build(), event -> {
             page++;
             renderPage();
         });
@@ -63,9 +58,9 @@ public class ListGenerator extends ChestUI {
             }
 
             Generator info = choosers.get(genIndex);
-            //TODO: Fix null map
+            //TODO: When will xHexed fix?
 //            Map<Material, Double> chances = info.getChances();
-//            System.out.println(chances);
+
             ItemStack item = XMaterial.COBBLESTONE.parseItem();
 
             ItemMeta meta = item.getItemMeta();
@@ -77,6 +72,9 @@ public class ListGenerator extends ChestUI {
             lore.add("§7Level: " + info.getLevel());
 //            lore.add("");
 //            lore.add("§7Random:");
+//            chances.forEach((key, vaule) -> {
+//                lore.add(key);
+//            });
 //            lore.add("");
             lore.add("");
             lore.add("§eClick to edit.");
@@ -85,7 +83,7 @@ public class ListGenerator extends ChestUI {
 
             set(i % 9, 1 + (i / 9), item, event -> {
                 MenuGenerator ui = new MenuGenerator(player, this, info);
-
+                PlayerUI.openUI(player, ui);
             });
         }
     }
