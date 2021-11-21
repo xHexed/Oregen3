@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.implementations.events;
+package me.banbeucmas.oregen3.handlers.event;
 
 import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Bukkit;

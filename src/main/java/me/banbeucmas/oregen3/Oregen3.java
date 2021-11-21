@@ -6,23 +6,22 @@ import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
 import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
+import me.banbeucmas.oregen3.editor.Editor;
 import me.banbeucmas.oregen3.handlers.block.placetask.BlockPlaceTask;
 import me.banbeucmas.oregen3.handlers.block.placetask.LimitedBlockPlaceTask;
 import me.banbeucmas.oregen3.handlers.block.placetask.NormalBlockPlaceTask;
-import me.banbeucmas.oregen3.handlers.event.AsyncBlockEventHandler;
-import me.banbeucmas.oregen3.handlers.event.BlockEventHandler;
-import me.banbeucmas.oregen3.handlers.event.SyncBlockEventHandler;
+import me.banbeucmas.oregen3.handlers.event.*;
 import me.banbeucmas.oregen3.hooks.placeholder.PlaceholderHandler;
 import me.banbeucmas.oregen3.hooks.skyblock.*;
-import me.banbeucmas.oregen3.implementations.events.InventoryEventsHandler;
 import me.banbeucmas.oregen3.listeners.*;
 import me.banbeucmas.oregen3.utils.StringUtils;
 import net.milkbowl.vault.permission.Permission;
-import org.bstats.bukkit.MetricsLite;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -87,7 +86,7 @@ public final class Oregen3 extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        new MetricsLite(this, 3052);
+        new Metrics(this, 3052);
 
         saveDefaultConfig();
         updateConfig();
@@ -111,7 +110,15 @@ public final class Oregen3 extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryEventsHandler(this), this);
+        getServer().getPluginManager().registerEvents(new ChatEventHandler(this), this);
 
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (Editor.chanceSet.containsKey(player.getUniqueId())) {
+                    player.sendTitle("§6§lEdit Chance", "§7Type in chat to edit, chat §ccancel§7 to cancel");
+                }
+            }
+        }, 0, 20);
     }
 
     public void reload() {
@@ -178,4 +185,6 @@ public final class Oregen3 extends JavaPlugin {
             permissionManager = new DefaultPermission();
         }
     }
+
+
 }

@@ -119,8 +119,8 @@
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit-lite</artifactId>
-            <version>1.7</version>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>2.2.1</version>
         </dependency>
         <dependency>
             <groupId>me.clip</groupId>

@@ -4,8 +4,10 @@ import com.cryptomorin.xseries.XMaterial;
 import io.th0rgal.oraxen.items.OraxenItems;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
+import me.banbeucmas.oregen3.editor.Editor;
 import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
 import me.banbeucmas.oregen3.managers.items.ItemBuilder;
+import me.banbeucmas.oregen3.managers.items.SkullIndex;
 import me.banbeucmas.oregen3.managers.ui.PlayerUI;
 import me.banbeucmas.oregen3.managers.ui.chest.ChestUI;
 import me.banbeucmas.oregen3.utils.StringUtils;
@@ -24,6 +26,7 @@ public class ListRandomBlock extends ChestUI {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial()).setName("§0").build();
 
+    private MenuGenerator menuGenerator;
     public Generator generator;
     private int page;
 
@@ -31,6 +34,7 @@ public class ListRandomBlock extends ChestUI {
         super(player, "Edit random blocks (%name) [p.%page]"
                 .replace("%name", generator.getId())
                 .replace("%page", String.valueOf(page + 1)), 6);
+        this.menuGenerator = menuGenerator;
         this.generator = generator;
         this.page = page;
 
@@ -49,6 +53,22 @@ public class ListRandomBlock extends ChestUI {
         Configuration config = Oregen3.getPlugin().getConfig();
         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
         List<String> materials = new ArrayList<>(path.getKeys(false));
+
+        if (page > 0) set(2, 0, new ItemBuilder(SkullIndex.PREVIOUS).setName("§e <- Previous Page ").build(), event -> {
+            page--;
+            renderPage();
+        });
+        if ((page + 1) * 36 < materials.size()) set(6, 0, new ItemBuilder(SkullIndex.NEXT).setName("§e Next Page -> ").build(), event -> {
+            page++;
+            renderPage();
+        });
+
+        for (String totalChances : path.getKeys(false)) {
+            totalChances += totalChances;
+            set(3, 0, new ItemBuilder(XMaterial.CHEST_MINECART.parseMaterial())
+                    .setName("§7Total Chances: §6" + StringUtils.DOUBLE_FORMAT.format(totalChances))
+                    .build(), null);
+        }
 
         for (int i = 0; i < 36; i++) {
 
@@ -82,7 +102,21 @@ public class ListRandomBlock extends ChestUI {
                 meta.setLore(lore);
                 item.setItemMeta(meta);
 
-                set(i % 9, 1 + (i / 9), item, null);
+                set(i % 9, 1 + (i / 9), item, event -> {
+                    setCancelDragEvent(true);
+                    if (event.isLeftClick()) {
+                        player.closeInventory();
+                        Editor.markChanceSet(player, generator, material, matIndex);
+                    }
+                    if (event.isRightClick()) {
+                        materials.remove(matIndex);
+                        config.set("generators." + generator.getId() + ".random", materials);
+                        // TODO: Find way to save config with comments
+                        Oregen3.getPlugin().saveConfig();
+                        ListRandomBlock ui = new ListRandomBlock(player, menuGenerator, generator, page);
+                        PlayerUI.openUI(player, ui);
+                    }
+                });
             }
         }
 
