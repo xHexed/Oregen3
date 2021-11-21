@@ -63,9 +63,9 @@ public class ListRandomBlock extends ChestUI {
             renderPage();
         });
 
-        for (String totalChances : path.getKeys(false)) {
+        for (String totalChances : path.getKeys(true)) {
             totalChances += totalChances;
-            set(3, 0, new ItemBuilder(XMaterial.CHEST_MINECART.parseMaterial())
+            set(4, 0, new ItemBuilder(XMaterial.CHEST_MINECART.parseMaterial())
                     .setName("§7Total Chances: §6" + totalChances)
                     .build(), null);
         }
@@ -103,14 +103,14 @@ public class ListRandomBlock extends ChestUI {
                 item.setItemMeta(meta);
 
                 set(i % 9, 1 + (i / 9), item, event -> {
+                    event.setCancelled(true);
                     setCancelDragEvent(true);
                     if (event.isLeftClick()) {
                         player.closeInventory();
                         Editor.markChanceSet(player, generator, material, matIndex);
                     }
                     if (event.isRightClick()) {
-                        materials.remove(matIndex);
-                        config.set("generators." + generator.getId() + ".random", materials);
+                        config.set("generators." + generator.getId() + ".random." + material, null);
                         // TODO: Find way to save config with comments
                         Oregen3.getPlugin().saveConfig();
                         ListRandomBlock ui = new ListRandomBlock(player, menuGenerator, generator, page);
