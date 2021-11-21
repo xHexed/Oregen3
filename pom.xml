@@ -139,7 +139,7 @@
             <artifactId>acidisland</artifactId>
             <version>3.0.9.4</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/acidisland.jar</systemPath>
+            <systemPath>${project.basedir}/libs/acidisland.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.rlf</groupId>
@@ -164,7 +164,7 @@
             <artifactId>oraxen</artifactId>
             <version>1.116.4</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/oraxen-1.116.4-all.jar</systemPath>
+            <systemPath>${project.basedir}/libs/oraxen-1.116.4-all.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.songoda</groupId>
