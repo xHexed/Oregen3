@@ -90,7 +90,7 @@ generators:
     name: "My default"
     random:
     # Example for oraxen support, in order: oraxen-"blockID"
-    # oraxen-ruby_ore:10
+    # oraxen-ruby_ore: 10
       COBBLESTONE: 30.0
       GOLD_BLOCK: 20.0
       IRON_BLOCK: 15.0
