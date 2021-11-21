@@ -17,7 +17,7 @@ public class Editor {
         optionSet.put(player.getUniqueId(), new Object() {
             HashMap<String, Object> parse() {
                 HashMap<String, Object> options = new HashMap<>();
-                options.put("Generator", generator);
+                options.put("Generator", generator.getId());
                 options.put("Material", material);
                 options.put("Index", index);
                 return options;

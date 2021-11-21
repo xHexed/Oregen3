@@ -107,7 +107,7 @@ public class ListRandomBlock extends ChestUI {
                     setCancelDragEvent(true);
                     if (event.isLeftClick()) {
                         player.closeInventory();
-                        Editor.markChanceSet(player, generator.getId(), material, matIndex);
+                        Editor.markChanceSet(player, generator, material, matIndex);
                     }
                     if (event.isRightClick()) {
                         config.set("generators." + generator.getId() + ".random." + material, null);
