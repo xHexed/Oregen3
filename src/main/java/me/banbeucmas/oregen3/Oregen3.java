@@ -115,7 +115,7 @@ public final class Oregen3 extends JavaPlugin {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (Editor.chanceSet.containsKey(player.getUniqueId())) {
-                    player.sendTitle("§6§lEdit Chance", "§7Type in chat to edit, chat §ccancel§7 to cancel");
+                    player.sendTitle("§6§lEdit Chance", "§7Type in chat to edit, chat §ccancel§7 to cancel", 0, 5, 0);
                 }
             }
         }, 0, 20);

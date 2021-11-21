@@ -63,12 +63,12 @@ public class ListRandomBlock extends ChestUI {
             renderPage();
         });
 
-        for (String totalChances : path.getKeys(true)) {
-            totalChances += totalChances;
-            set(4, 0, new ItemBuilder(XMaterial.CHEST_MINECART.parseMaterial())
-                    .setName("§7Total Chances: §6" + totalChances)
-                    .build(), null);
-        }
+        // for (String totalChances : path.getKeys(true)) {
+        //     totalChances += totalChances;
+        //     set(4, 0, new ItemBuilder(XMaterial.CHEST_MINECART.parseMaterial())
+        //             .setName("§7Total Chances: §6" + totalChances)
+        //             .build(), null);
+        // }
 
         for (int i = 0; i < 36; i++) {
 
