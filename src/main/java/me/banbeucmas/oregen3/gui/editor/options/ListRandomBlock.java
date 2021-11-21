@@ -66,7 +66,7 @@ public class ListRandomBlock extends ChestUI {
         for (String totalChances : path.getKeys(false)) {
             totalChances += totalChances;
             set(3, 0, new ItemBuilder(XMaterial.CHEST_MINECART.parseMaterial())
-                    .setName("§7Total Chances: §6" + StringUtils.DOUBLE_FORMAT.format(totalChances))
+                    .setName("§7Total Chances: §6" + totalChances)
                     .build(), null);
         }
 
