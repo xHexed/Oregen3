@@ -41,11 +41,12 @@ public class MenuGenerator extends ChestUI {
         lore.add("§7Priority: " + generator.getPriority());
         lore.add("§7Level: " + generator.getLevel());
         lore.add("");
-        lore.add("§7Random:");
+        if (materials.size() > 0) lore.add("§7Random:");
         for (int mc = 0; mc < materials.size(); mc++){
             lore.add("§6 ● §8" + materials.get(mc) + ":§e " + config.getDouble("generators." + generator.getId() + ".random." + materials.get(mc)));
+
         }
-        lore.add("");
+        if (materials.size() > 0)lore.add("");
         meta.setLore(lore);
         item.setItemMeta(meta);
 

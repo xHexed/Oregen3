@@ -14,6 +14,7 @@ import java.util.UUID;
 public enum SkullIndex {
 
     GENERATOR("7f9f356f5fe7d1bc92cddfaeba3ee773ac9df1cc4d1c2f8fe5f47013032c551d"),
+    CREATE("9a2d891c6ae9f6baa040d736ab84d48344bb6b70d7f1a280dd12cbac4d777"),
     PREVIOUS("bd69e06e5dadfd84e5f3d1c21063f2553b2fa945ee1d4d7152fdc5425bc12a9"),
     NEXT("19bf3292e126a105b54eba713aa1b152d541a1d8938829c56364d178ed22bf");
 

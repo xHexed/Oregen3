@@ -46,10 +46,14 @@ public class ListGenerator extends ChestUI {
         List<Generator> choosers = new ArrayList<>(map.values());
         
         if (page > 0) set(2, 0, new ItemBuilder(SkullIndex.PREVIOUS).setName("§e <- Previous Page ").build(), event -> {
+            event.setCancelled(true);
+            setCancelDragEvent(true);
             page--;
             renderPage();
         });
         if ((page + 1) * 36 < choosers.size()) set(6, 0, new ItemBuilder(SkullIndex.NEXT).setName("§e Next Page -> ").build(), event -> {
+            event.setCancelled(true);
+            setCancelDragEvent(true);
             page++;
             renderPage();
         });

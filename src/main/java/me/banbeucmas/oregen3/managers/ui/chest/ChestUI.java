@@ -24,6 +24,7 @@
  */
 package me.banbeucmas.oregen3.managers.ui.chest;
 
+import net.minecraft.world.inventory.Slot;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -61,6 +62,18 @@ public abstract class ChestUI {
     public void set(int x, int y, ItemStack item, SlotHandler handler) {
         inventory.setItem(y * 9 + x, item);
         handlers[y * 9 + x] = handler;
+    }
+
+    public void set(int slot, ItemStack item, SlotHandler handler) {
+        inventory.setItem(slot, item);
+        handlers[slot] = handler;
+    }
+
+    public void set(int[] slots, ItemStack item, SlotHandler handler) {
+        for (int slot : slots) {
+            inventory.setItem(slot, item);
+            handlers[slot] = handler;
+        }
     }
 
     public abstract void failback(InventoryClickEvent clickEvent);
