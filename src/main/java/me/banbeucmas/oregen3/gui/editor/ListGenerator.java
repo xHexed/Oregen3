@@ -23,11 +23,13 @@ import java.util.Map;
 public class ListGenerator extends ChestUI {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial()).setName("§0").build();
+    protected static final ItemStack NEXT = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setName("§e <- Go Back ").setSkull("19bf3292e126a105b54eba713aa1b152d541a1d8938829c56364d178ed22bf").build();
+    protected static final ItemStack PREVIOUS = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setName("§e <- Previous Page ").setSkull("bd69e06e5dadfd84e5f3d1c21063f2553b2fa945ee1d4d7152fdc5425bc12a9").build();
 
     private int page;
 
     public ListGenerator(Player player, EditorGUI editorGUI, int page) {
-        super(player, "Generators [p.%page]".replace("%page", String.valueOf(page + 1)), 6);
+        super(player, "Generators", 6);
         this.page = page;
 
         for (int i = 0; i < 9; i++) set(i, 0, BORDER, null);
@@ -44,13 +46,13 @@ public class ListGenerator extends ChestUI {
         Map<String, Generator> map = DataManager.getChoosers();
         List<Generator> choosers = new ArrayList<>(map.values());
         
-        if (page > 0) set(2, 0, new ItemBuilder(XMaterial.BARRIER.parseMaterial()).setName("§e <- Previous Page ").build(), event -> {
+        if (page > 0) set(2, 0, PREVIOUS, event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page--;
             renderPage();
         });
-        if ((page + 1) * 36 < choosers.size()) set(6, 0, new ItemBuilder(XMaterial.ARROW.parseMaterial()).setName("§e Next Page -> ").build(), event -> {
+        if ((page + 1) * 36 < choosers.size()) set(6, 0, NEXT, event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page++;

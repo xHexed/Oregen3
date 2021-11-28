@@ -63,7 +63,7 @@ public class ChatEventHandler implements Listener {
 
                     plugin.getConfig().set("generators." + generator + ".random." + material, value);
                     plugin.saveConfig();
-                    player.sendMessage("§8[§aOregen3§8]§7 Set chance for material §2" + material + "§7 to §6" + message);
+                    player.sendMessage("§8[§aOregen3§8]§7 Set chance for material §2" + material + "§7 to §6" + message +"%");
                     Editor.clearPlayerMarking(player);
                 }
             });

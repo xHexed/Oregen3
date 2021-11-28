@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.gui.editor;
 
+import com.cryptomorin.xseries.SkullUtils;
 import com.cryptomorin.xseries.XMaterial;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
@@ -29,7 +30,7 @@ public class MenuGenerator extends ChestUI {
         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
         List<String> materials = new ArrayList<>(path.getKeys(true));
 
-        ItemStack item = XMaterial.FURNACE.parseItem();
+        ItemStack item = XMaterial.PLAYER_HEAD.parseItem();
 
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName("§7Generator §6" + generator.getId());
@@ -47,6 +48,7 @@ public class MenuGenerator extends ChestUI {
         }
         if (materials.size() > 0)lore.add("");
         meta.setLore(lore);
+        SkullUtils.applySkin(meta, "http://textures.minecraft.net/texture/7f9f356f5fe7d1bc92cddfaeba3ee773ac9df1cc4d1c2f8fe5f47013032c551d");
         item.setItemMeta(meta);
 
         for (int i = 0; i < 9; i++) set(i, 0, ListGenerator.BORDER, null);

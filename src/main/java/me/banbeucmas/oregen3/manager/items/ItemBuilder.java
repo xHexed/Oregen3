@@ -1,5 +1,6 @@
 package me.banbeucmas.oregen3.manager.items;
 
+import com.cryptomorin.xseries.SkullUtils;
 import me.banbeucmas.oregen3.util.StringUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
@@ -18,14 +19,21 @@ public class ItemBuilder {
 
     private ItemStack stack;
     private Material type;
+    private int amount = 1;
     private String name;
     private List<String> lore = new ArrayList<>();
     private PotionType potionType;
     private boolean glowing;
     private int customModel = -1;
+    private String skullSkin;
 
     public ItemBuilder(Material type) {
         this.type = type;
+    }
+
+    public ItemBuilder setAmount(int amount) {
+        this.amount = amount;
+        return this;
     }
 
     public ItemBuilder setName(String name) {
@@ -125,8 +133,13 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder setSkull(String skullSkin) {
+        this.skullSkin = skullSkin;
+        return this;
+    }
+
     public ItemStack build() {
-        ItemStack item = stack == null ? new ItemStack(type) : stack;
+        ItemStack item = stack == null ? new ItemStack(type, amount) : stack;
 
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
@@ -138,6 +151,9 @@ public class ItemBuilder {
                 ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
         if (glowing) {
             meta.addEnchant(Enchantment.DURABILITY, 1, true);
+        }
+        if (skullSkin != null) {
+            SkullUtils.applySkin(meta, "http://textures.minecraft.net/texture/" + skullSkin);
         }
         item.setItemMeta(meta);
         if (meta instanceof PotionMeta && potionType != null) {

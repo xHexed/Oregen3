@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static me.banbeucmas.oregen3.Oregen3.getPlugin;
 
 public class CommandHandler implements CommandExecutor, TabCompleter {
     @Override
@@ -30,18 +33,29 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 break;
             case "edit":
                 new EditCommand(sender, args).execute();
+            case "developer":
+                new DeveloperCommand(sender, args).execute();
         }
         return true;
     }
 
     @Override
     public List<String> onTabComplete(final CommandSender sender, final Command command, final String alias, final String[] args) {
-        if (args.length > 1) {
-            return null;
+        List<String> list = new ArrayList<>();
+
+        if (args.length == 1) {
+            if (sender.hasPermission("oregen3.reload")) list.add("reload");
+            if (sender.hasPermission("oregen3.help")) list.add("help");
+            if (sender.hasPermission("oregen3.information")) list.add("info");
+            if (sender.hasPermission("oregen3.edit")) list.add("edit");
         }
-        final List<String> completions = new ArrayList<>();
-        StringUtil.copyPartialMatches(args[0], Arrays.asList("reload", "help", "info", "edit"), completions);
-        Collections.sort(completions);
-        return completions;
+
+        if (args.length > 1) {
+            List<String> generators = new ArrayList<>(getPlugin().getConfig().getConfigurationSection("generators").getKeys(false));
+            if (args[0].startsWith("edit") && sender.hasPermission("oregen3.edit"))
+                generators.forEach(generator -> list.add(generator.toString()));
+        }
+
+        return args[args.length - 1].isEmpty() ? list : list.stream().filter(string -> string.toLowerCase().startsWith(args[args.length - 1].toLowerCase())).collect(Collectors.toList());
     }
 }
