@@ -118,18 +118,7 @@ public class ListRandomBlock extends ChestUI {
                         }
                         if (event.isRightClick()) {
                             config.set("generators." + generator.getId() + ".random." + material, null);
-                            // TODO: Find way to save config with comments
                             Oregen3.getPlugin().saveConfig();
-                            try {
-                                ConfigUpdater.update(
-                                        Oregen3.getPlugin(),
-                                        "config.yml",
-                                        configFile,
-                                        Arrays.asList("generators"));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            Oregen3.getPlugin().reload();
                             ListRandomBlock ui = new ListRandomBlock(player, menuGenerator, generator, page);
                             PlayerUI.openUI(player, ui);
                         }
@@ -161,8 +150,8 @@ public class ListRandomBlock extends ChestUI {
                     }
                     if (event.isRightClick()) {
                         config.set("generators." + generator.getId() + ".random." + material, null);
-                        // TODO: Find way to save config with comments
                         Oregen3.getPlugin().saveConfig();
+                        // TODO: Find way to save config with comments
                         ListRandomBlock ui = new ListRandomBlock(player, menuGenerator, generator, page);
                         PlayerUI.openUI(player, ui);
                     }
