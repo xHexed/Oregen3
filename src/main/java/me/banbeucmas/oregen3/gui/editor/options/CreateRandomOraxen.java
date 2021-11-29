@@ -42,7 +42,9 @@ public class CreateRandomOraxen extends ChestUI {
     private void renderPage() {
 
         for (ItemBuilder entry : OraxenItems.getItems()) {
-            fullOraxenList.add(entry);
+            if (!fullOraxenList.contains(entry)) {
+                fullOraxenList.add(entry);
+            }
         }
         filteredItems = fullOraxenList;
 

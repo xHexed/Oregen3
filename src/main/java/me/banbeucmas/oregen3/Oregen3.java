@@ -7,6 +7,7 @@ import me.banbeucmas.oregen3.data.permission.DefaultPermission;
 import me.banbeucmas.oregen3.data.permission.PermissionManager;
 import me.banbeucmas.oregen3.data.permission.VaultPermission;
 import me.banbeucmas.oregen3.editor.Editor;
+import me.banbeucmas.oregen3.editor.type.EditType;
 import me.banbeucmas.oregen3.handler.block.placetask.BlockPlaceTask;
 import me.banbeucmas.oregen3.handler.block.placetask.LimitedBlockPlaceTask;
 import me.banbeucmas.oregen3.handler.block.placetask.NormalBlockPlaceTask;
@@ -114,8 +115,15 @@ public final class Oregen3 extends JavaPlugin {
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
-                if (Editor.chanceSet.containsKey(player.getUniqueId())) {
-                    player.sendTitle("§6§lEdit Chance", "§7Type in chat to edit, chat §ccancel§7 to cancel", 0, 60, 0);
+                if (Editor.editSet.containsKey(player.getUniqueId())) {
+                    EditType type = Editor.editSet.get(player.getUniqueId());
+                    if (type == EditType.SET_CHANCE) {
+                        player.sendTitle("§6§lEdit Chance", "§7Type in chat to edit, chat §ccancel§7 to cancel", 0, 60, 0);
+                    } else if (type == EditType.SET_PERMISSION) {
+                        player.sendTitle("§6§lEdit Permission", "§7Type in chat to edit, chat §ccancel§7 to cancel", 0, 60, 0);
+                    } else if (type == EditType.SET_PRIORITY) {
+                        player.sendTitle("§6§lEdit Priority", "§7Type in chat to edit, chat §ccancel§7 to cancel", 0, 60, 0);
+                    }
                 }
             }
         }, 0, 20);

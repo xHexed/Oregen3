@@ -45,19 +45,19 @@ public class ListGenerator extends ChestUI {
     private void renderPage() {
         Map<String, Generator> map = DataManager.getChoosers();
         List<Generator> choosers = new ArrayList<>(map.values());
-        
-        if (page > 0) set(2, 0, PREVIOUS, event -> {
+
+        if (page > 0) { set(2, 0, PREVIOUS, event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page--;
             renderPage();
-        });
-        if ((page + 1) * 36 < choosers.size()) set(6, 0, NEXT, event -> {
+        });} else set(2, 0, BORDER, null);
+        if ((page + 1) * 36 < choosers.size()) { set(6, 0, NEXT, event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page++;
             renderPage();
-        });
+        });} else set(6, 0, BORDER, null);
         
         for (int i = 0; i < 36; i++) {
             int genIndex = page * 36 + i;
@@ -82,11 +82,11 @@ public class ListGenerator extends ChestUI {
             lore.add("§7Priority: " + info.getPriority());
             lore.add("§7Level: " + info.getLevel());
             lore.add("");
-            lore.add("§7Random:");
+            if (materials.size() > 0) lore.add("§7Random:");
             for (int mc = 0; mc < materials.size(); mc++){
                 lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + info.getId() + ".random." + materials.get(mc))));
             }
-            lore.add("");
+            if (materials.size() > 0)lore.add("");
             lore.add("§eClick to edit.");
             meta.setLore(lore);
             item.setItemMeta(meta);

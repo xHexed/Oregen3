@@ -6,6 +6,7 @@ import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.EditorGUI;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
 import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
+import me.banbeucmas.oregen3.gui.editor.options.ListRandomBlock;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
 import me.banbeucmas.oregen3.manager.ui.PlayerUI;
 import me.banbeucmas.oregen3.manager.ui.chest.ChestUI;
@@ -60,23 +61,26 @@ public class CreateRandomBlock extends ChestUI {
             if (!value.isBlock()) {
                 continue;
             }
-            fullItemList.add(value);
+            // Check for no dupe
+            if (!fullItemList.contains(value)) {
+                fullItemList.add(value);
+            }
         }
         Collections.sort(fullItemList);
         filteredItems = fullItemList;
 
-        if (page > 0) set(2, 0, PREVIOUS, event -> {
+        if (page > 0) { set(2, 0, PREVIOUS, event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page--;
             renderPage();
-        });
-        if ((page + 1) * 36 < filteredItems.size()) set(6, 0, NEXT, event -> {
+        });} else set(2, 0, BORDER, null);
+        if ((page + 1) * 36 < filteredItems.size()) { set(6, 0, NEXT, event -> {
             event.setCancelled(true);
             setCancelDragEvent(true);
             page++;
             renderPage();
-        });
+        });} else set(6, 0, BORDER, null);
 
         for (int i = 0; i < 36; i++) {
 
@@ -90,6 +94,7 @@ public class CreateRandomBlock extends ChestUI {
                 event.setCancelled(true);
                 config.set("generators." + generator.getId() + ".random." + filteredItems.get(index).toString(), 1.0);
                 Oregen3.getPlugin().saveConfig();
+                Oregen3.getPlugin().reload();
                 ListRandomBlock ui = new ListRandomBlock(player,
                         new MenuGenerator(player,
                                 new ListGenerator(player,
