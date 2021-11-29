@@ -25,7 +25,6 @@ public class CreateRandomBlock extends ChestUI {
     protected static final ItemStack PREVIOUS = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setName("§e <- Previous Page ").setSkull("bd69e06e5dadfd84e5f3d1c21063f2553b2fa945ee1d4d7152fdc5425bc12a9").build();
 
     private static final List<Material> fullItemList = new ArrayList<>();
-    private static final Map<String, Double> mmaterials = new HashMap<>();
 
     private ListRandomBlock listRandomBlock;
     private Generator generator;

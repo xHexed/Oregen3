@@ -33,8 +33,6 @@ public class CommandHandler implements CommandExecutor, TabCompleter {
                 break;
             case "edit":
                 new EditCommand(sender, args).execute();
-            case "developer":
-                new DeveloperCommand(sender, args).execute();
         }
         return true;
     }

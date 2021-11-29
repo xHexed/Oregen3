@@ -3,6 +3,7 @@ package me.banbeucmas.oregen3.gui.editor.options;
 import com.cryptomorin.xseries.XMaterial;
 import io.th0rgal.oraxen.items.OraxenItems;
 import me.banbeucmas.oregen3.Oregen3;
+import me.banbeucmas.oregen3.config.ConfigUpdater;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.editor.Editor;
 import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
@@ -18,10 +19,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class ListRandomBlock extends ChestUI {
 
@@ -29,7 +29,7 @@ public class ListRandomBlock extends ChestUI {
     protected static final ItemStack NEXT = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setName("§e Next Page -> ").setSkull("19bf3292e126a105b54eba713aa1b152d541a1d8938829c56364d178ed22bf").build();
     protected static final ItemStack PREVIOUS = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setName("§e <- Previous Page ").setSkull("bd69e06e5dadfd84e5f3d1c21063f2553b2fa945ee1d4d7152fdc5425bc12a9").build();
 
-    private Map<String, Double> mmaterial = new HashMap<>();
+    private File configFile = new File(Oregen3.getPlugin().getDataFolder(), "config.yml");
 
     public MenuGenerator menuGenerator;
     public Generator generator;
@@ -96,7 +96,7 @@ public class ListRandomBlock extends ChestUI {
 
             String material = materials.get(matIndex);
 
-            if (material.startsWith("oraxen-")) {
+            if (material.startsWith("oraxen-") || material.startsWith("ORAXEN-")) {
                 if (Bukkit.getPluginManager().isPluginEnabled("Oraxen")) {
                     ItemStack item = OraxenItems.getItemById(material.substring(7)).build();
                     ItemMeta meta = item.getItemMeta();
@@ -120,6 +120,16 @@ public class ListRandomBlock extends ChestUI {
                             config.set("generators." + generator.getId() + ".random." + material, null);
                             // TODO: Find way to save config with comments
                             Oregen3.getPlugin().saveConfig();
+                            try {
+                                ConfigUpdater.update(
+                                        Oregen3.getPlugin(),
+                                        "config.yml",
+                                        configFile,
+                                        Arrays.asList("generators"));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            Oregen3.getPlugin().reload();
                             ListRandomBlock ui = new ListRandomBlock(player, menuGenerator, generator, page);
                             PlayerUI.openUI(player, ui);
                         }
