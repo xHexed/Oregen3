@@ -103,18 +103,27 @@ public class ChatEventHandler implements Listener {
 
                     int volume;
                     int pitch;
+                    String[] value = message.split("-|\\\\.");
                     try {
-                        volume = Integer.parseInt(message.substring(0));
+                        volume = Integer.parseInt(value[0]);
+                        pitch = Integer.parseInt(value[1]);
                     } catch (NumberFormatException e) {
                         player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set level canceled");
                         Editor.clearPlayerMarking(player);
                         return;
                     }
 
-                    plugin.getConfig().set("generators." + generator + ".level", volume);
+                    plugin.getConfig().set("generators." + generator + ".sound.volume", volume);
+                    plugin.getConfig().set("generators." + generator + ".sound.pitch", pitch);
                     plugin.saveConfig();
                     Oregen3.getPlugin().reload();
-                    player.sendMessage("§8[§aOregen3§8]§7 Set level for generator §6" + generator + "§7 to §6" + value);
+                    player.sendMessage(new String[] {
+                            "",
+                            "§8[§aOregen3§8]§7 Set level for generator §6" + generator + "§7 to",
+                            "§7Volume: §6" + volume,
+                            "§7Pitch: §6" + pitch,
+                            ""
+                    });
                     Editor.clearPlayerMarking(player);
                 }
             });
