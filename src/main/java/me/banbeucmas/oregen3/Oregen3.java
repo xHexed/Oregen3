@@ -12,7 +12,8 @@ import me.banbeucmas.oregen3.handler.block.placetask.NormalBlockPlaceTask;
 import me.banbeucmas.oregen3.handler.event.*;
 import me.banbeucmas.oregen3.hook.placeholder.PlaceholderHandler;
 import me.banbeucmas.oregen3.hook.skyblock.*;
-import me.banbeucmas.oregen3.listener.*;
+import me.banbeucmas.oregen3.listener.BlockListener;
+import me.banbeucmas.oregen3.listener.InventoryListener;
 import me.banbeucmas.oregen3.util.StringUtils;
 import net.milkbowl.vault.permission.Permission;
 import org.bstats.bukkit.MetricsLite;
@@ -20,7 +21,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -110,7 +110,6 @@ public final class Oregen3 extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryEventsHandler(this), this);
         getServer().getPluginManager().registerEvents(new ChatEventHandler(this), this);
-
     }
 
     public void reload() {
