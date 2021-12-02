@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.gui.editor.options;
+package me.banbeucmas.oregen3.gui.editor.options.block;
 
 import com.cryptomorin.xseries.XMaterial;
 import io.th0rgal.oraxen.items.ItemBuilder;

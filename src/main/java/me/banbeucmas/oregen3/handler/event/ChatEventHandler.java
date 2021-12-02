@@ -97,6 +97,26 @@ public class ChatEventHandler implements Listener {
                     player.sendMessage("§8[§aOregen3§8]§7 Set priority for generator §6" + generator + "§7 to §6" + value);
                     Editor.clearPlayerMarking(player);
                 }
+                if (type == EditType.SET_LEVEL) {
+                    HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
+                    String generator = (String) options.get("Generator");
+
+                    int volume;
+                    int pitch;
+                    try {
+                        volume = Integer.parseInt(message.substring(0));
+                    } catch (NumberFormatException e) {
+                        player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set level canceled");
+                        Editor.clearPlayerMarking(player);
+                        return;
+                    }
+
+                    plugin.getConfig().set("generators." + generator + ".level", volume);
+                    plugin.saveConfig();
+                    Oregen3.getPlugin().reload();
+                    player.sendMessage("§8[§aOregen3§8]§7 Set level for generator §6" + generator + "§7 to §6" + value);
+                    Editor.clearPlayerMarking(player);
+                }
             });
         }
     }

@@ -47,6 +47,17 @@ public class Editor {
         }.parse());
     }
 
+    public static void markLevelSet(Player player, Generator generator) {
+        editSet.put(player.getUniqueId(), EditType.SET_PERMISSION);
+        optionSet.put(player.getUniqueId(), new Object() {
+            HashMap<String, Object> parse() {
+                HashMap<String, Object> options = new HashMap<>();
+                options.put("Generator", generator.getId());
+                return options;
+            }
+        }.parse());
+    }
+
     public static void clearPlayerMarking(Player player) {
         editSet.remove(player.getUniqueId());
     }

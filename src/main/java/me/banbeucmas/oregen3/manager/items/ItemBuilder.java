@@ -1,6 +1,7 @@
 package me.banbeucmas.oregen3.manager.items;
 
 import com.cryptomorin.xseries.SkullUtils;
+import com.cryptomorin.xseries.XMaterial;
 import me.banbeucmas.oregen3.util.StringUtils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
@@ -14,6 +15,7 @@ import org.bukkit.potion.PotionType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemBuilder {
 
@@ -26,10 +28,14 @@ public class ItemBuilder {
     private boolean glowing;
     private int customModel = -1;
     private String skullSkin;
+    private String owner;
+    private UUID uuid;
 
     public ItemBuilder(Material type) {
         this.type = type;
     }
+
+    public ItemBuilder(XMaterial type) { this.type = type.parseMaterial(); }
 
     public ItemBuilder setAmount(int amount) {
         this.amount = amount;
@@ -137,6 +143,15 @@ public class ItemBuilder {
         this.skullSkin = skullSkin;
         return this;
     }
+     public ItemBuilder setOwner(String owner) {
+        this.owner = owner;
+        return this;
+     }
+
+    public ItemBuilder setOwner(UUID uuid) {
+        this.uuid = uuid;
+        return this;
+    }
 
     public ItemStack build() {
         ItemStack item = stack == null ? new ItemStack(type, amount) : stack;
@@ -154,6 +169,12 @@ public class ItemBuilder {
         }
         if (skullSkin != null) {
             SkullUtils.applySkin(meta, "http://textures.minecraft.net/texture/" + skullSkin);
+        }
+        if (owner != null) {
+            SkullUtils.applySkin(meta, owner);
+        }
+        if (uuid != null) {
+            SkullUtils.applySkin(meta, uuid);
         }
         item.setItemMeta(meta);
         if (meta instanceof PotionMeta && potionType != null) {

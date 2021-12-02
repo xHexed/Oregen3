@@ -22,21 +22,22 @@ import java.util.Map;
 
 public class ListGenerator extends ChestUI {
 
-    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseMaterial()).setName("§0").build();
-    protected static final ItemStack NEXT = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setName("§e Next Page -> ").setSkull("19bf3292e126a105b54eba713aa1b152d541a1d8938829c56364d178ed22bf").build();
-    protected static final ItemStack PREVIOUS = new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial()).setName("§e <- Previous Page ").setSkull("bd69e06e5dadfd84e5f3d1c21063f2553b2fa945ee1d4d7152fdc5425bc12a9").build();
+    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE).setName("§0").build();
+    protected static final ItemStack NEXT = new ItemBuilder(XMaterial.PLAYER_HEAD).setName("§e Next Page -> ").setSkull("19bf3292e126a105b54eba713aa1b152d541a1d8938829c56364d178ed22bf").build();
+    protected static final ItemStack PREVIOUS = new ItemBuilder(XMaterial.PLAYER_HEAD).setName("§e <- Previous Page ").setSkull("bd69e06e5dadfd84e5f3d1c21063f2553b2fa945ee1d4d7152fdc5425bc12a9").build();
 
     private int page;
 
-    public ListGenerator(Player player, EditorGUI editorGUI, int page) {
+    public ListGenerator(Player player, int page) {
         super(player, "Generators", 6);
         this.page = page;
 
         for (int i = 0; i < 9; i++) set(i, 0, BORDER, null);
-        set(0, 0, new ItemBuilder(XMaterial.ARROW.parseMaterial())
+        set(0, 0, new ItemBuilder(XMaterial.ARROW)
                 .setName("§e <- Go Back ")
                 .build(), event -> {
-            PlayerUI.openUI(player, editorGUI);
+            EditorGUI ui = new EditorGUI(player);
+            PlayerUI.openUI(player, ui);
         });
         renderPage();
         for (int i = 0; i < 9; i++) set(i, 5, BORDER, null);
@@ -85,6 +86,11 @@ public class ListGenerator extends ChestUI {
             if (materials.size() > 0) lore.add("§7Random:");
             for (int mc = 0; mc < materials.size(); mc++){
                 lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + info.getId() + ".random." + materials.get(mc))));
+                if (mc == 5) {
+                    int mleft = materials.size() - mc;
+                    lore.add("§6 ● §8And §6" + mleft + "§8 more...");
+                    break;
+                }
             }
             if (materials.size() > 0)lore.add("");
             lore.add("§eClick to edit.");
@@ -92,7 +98,7 @@ public class ListGenerator extends ChestUI {
             item.setItemMeta(meta);
 
             set(i % 9, 1 + (i / 9), item, event -> {
-                MenuGenerator ui = new MenuGenerator(player, this, info);
+                MenuGenerator ui = new MenuGenerator(player, info);
                 PlayerUI.openUI(player, ui);
             });
         }
