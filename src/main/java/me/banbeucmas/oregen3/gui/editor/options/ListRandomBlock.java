@@ -109,6 +109,12 @@ public class ListRandomBlock extends ChestUI {
                         setCancelDragEvent(true);
                         if (event.isLeftClick()) {
                             player.closeInventory();
+                            player.sendMessage(new String[] {
+                                    "",
+                                    "§7Enter chance you want to set",
+                                    "§rthis block of generator.",
+                                    ""
+                            });
                             Editor.markChanceSet(player, generator, material, matIndex);
                         }
                         if (event.isRightClick()) {
@@ -142,6 +148,12 @@ public class ListRandomBlock extends ChestUI {
                     setCancelDragEvent(true);
                     if (event.isLeftClick()) {
                         player.closeInventory();
+                        player.sendMessage(new String[] {
+                                "",
+                                "§7Enter chance you want to set",
+                                "§rthis block of generator.",
+                                ""
+                        });
                         Editor.markChanceSet(player, generator, material, matIndex);
                     }
                     if (event.isRightClick()) {

@@ -4,5 +4,6 @@ public enum EditType {
     SET_CHANCE,
     SET_PERMISSION,
     SET_PRIORITY,
-    SET_LEVEL;
+    SET_LEVEL,
+    SET_VOLUME_PITCH;
 }

@@ -4,7 +4,10 @@ import com.cryptomorin.xseries.XMaterial;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.editor.Editor;
+import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
+import me.banbeucmas.oregen3.gui.editor.options.sound.ChooseSound;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
+import me.banbeucmas.oregen3.manager.ui.PlayerUI;
 import me.banbeucmas.oregen3.manager.ui.chest.ChestUI;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
@@ -21,6 +24,12 @@ public class MenuSound extends ChestUI {
         Configuration config = Oregen3.getPlugin().getConfig();
 
         for (int i = 0; i < 9; i++) set(i, 0, BORDER, null);
+        set(0, 0, new ItemBuilder(XMaterial.ARROW)
+                .setName("§e <- Go Back ")
+                .build(), event -> {
+            MenuGenerator ui = new MenuGenerator(player, generator);
+            PlayerUI.openUI(player, ui);
+        });
         set(2, 2, new ItemBuilder(XMaterial.PLAYER_HEAD)
                 .setName("§fEdit Sound")
                 .addLore("",
@@ -28,9 +37,12 @@ public class MenuSound extends ChestUI {
                         "",
                         "§eClick to edit sound", "")
                 .setSkull("e39343ece629fda4882079a467a5f4dc3b7cbcf6b8a2179bebf2494ee9991a60")
-                .build(), null);
+                .build(), event -> {
+            ChooseSound ui = new ChooseSound(player, generator, 0);
+            PlayerUI.openUI(player, ui);
+        });
         set(6, 2, new ItemBuilder(XMaterial.NOTE_BLOCK)
-                .setName("§fEdit Pitch And Volume")
+                .setName("§fEdit Volume And Pitch")
                 .addLore("",
                         "§7Volume: §e" + config.getInt("generators." + generator.getId() + ".sound.volume"),
                         "§7Pitch: §e" + config.getInt("generators." + generator.getId() + ".sound.pitch"),
@@ -45,7 +57,7 @@ public class MenuSound extends ChestUI {
                     "§eExample: <volume>-<pitch> (10-1)",
                     ""
             });
-            Editor.markLevelSet(player, generator);
+            Editor.markVolumePitchSet(player, generator);
         });
         for (int i = 0; i < 9; i++) set(i, 4, BORDER, null);
     }

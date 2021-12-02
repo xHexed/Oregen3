@@ -101,6 +101,25 @@ public class ChatEventHandler implements Listener {
                     HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
                     String generator = (String) options.get("Generator");
 
+                    int value;
+                    try {
+                        value = Integer.parseInt(message);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set level canceled");
+                        Editor.clearPlayerMarking(player);
+                        return;
+                    }
+
+                    plugin.getConfig().set("generators." + generator + ".level", value);
+                    plugin.saveConfig();
+                    Oregen3.getPlugin().reload();
+                    player.sendMessage("§8[§aOregen3§8]§7 Set level for generator §6" + generator + "§7 to §6" + value);
+                    Editor.clearPlayerMarking(player);
+                }
+                if (type == EditType.SET_VOLUME_PITCH) {
+                    HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
+                    String generator = (String) options.get("Generator");
+
                     int volume;
                     int pitch;
                     String[] value = message.split("-|\\\\.");
@@ -108,7 +127,7 @@ public class ChatEventHandler implements Listener {
                         volume = Integer.parseInt(value[0]);
                         pitch = Integer.parseInt(value[1]);
                     } catch (NumberFormatException e) {
-                        player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set level canceled");
+                        player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set volume-pitch canceled");
                         Editor.clearPlayerMarking(player);
                         return;
                     }

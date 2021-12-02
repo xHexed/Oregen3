@@ -37,7 +37,7 @@ public class Editor {
     }
 
     public static void markPrioritySet(Player player, Generator generator) {
-        editSet.put(player.getUniqueId(), EditType.SET_PERMISSION);
+        editSet.put(player.getUniqueId(), EditType.SET_PRIORITY);
         optionSet.put(player.getUniqueId(), new Object() {
             HashMap<String, Object> parse() {
                 HashMap<String, Object> options = new HashMap<>();
@@ -48,7 +48,18 @@ public class Editor {
     }
 
     public static void markLevelSet(Player player, Generator generator) {
-        editSet.put(player.getUniqueId(), EditType.SET_PERMISSION);
+        editSet.put(player.getUniqueId(), EditType.SET_LEVEL);
+        optionSet.put(player.getUniqueId(), new Object() {
+            HashMap<String, Object> parse() {
+                HashMap<String, Object> options = new HashMap<>();
+                options.put("Generator", generator.getId());
+                return options;
+            }
+        }.parse());
+    }
+
+    public static void markVolumePitchSet(Player player, Generator generator) {
+        editSet.put(player.getUniqueId(), EditType.SET_VOLUME_PITCH);
         optionSet.put(player.getUniqueId(), new Object() {
             HashMap<String, Object> parse() {
                 HashMap<String, Object> options = new HashMap<>();

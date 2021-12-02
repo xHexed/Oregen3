@@ -90,9 +90,9 @@ public class ChooseSound extends ChestUI {
             set(i % 9, 1 + (i / 9), new ItemBuilder(XMaterial.MUSIC_DISC_13)
                     .setName("§7Sound: §2" + sound)
                     .addLore("",
-                            "§8᛫§7 Hotbar 0 for pitch 1",
-                            "§8᛫§7 Hotbar 1 for pitch 2",
-                            "§8᛫§7 Hotbar 2 for pitch 3",
+                            "§8᛫§7 Hotbar 0 for pitch 0",
+                            "§8᛫§7 Hotbar 1 for pitch 1",
+                            "§8᛫§7 Hotbar 2 for pitch 2",
                             "",
                             "§eClick to choose sound",
                             "")
@@ -102,15 +102,15 @@ public class ChooseSound extends ChestUI {
                     player.playSound(player.getLocation(), XSound.matchXSound(sound).get().parseSound(), 1f, 0f);
                     return;
                 }
-                if (event.isRightClick()) {
+                if (event.getHotbarButton() == 1) {
                     player.playSound(player.getLocation(), XSound.matchXSound(sound).get().parseSound(), 1f, 1f);
                     return;
                 }
-                if (event.isShiftClick()) {
+                if (event.getHotbarButton() == 2) {
                     player.playSound(player.getLocation(), XSound.matchXSound(sound).get().parseSound(), 1f, 2f);
                     return;
                 }
-                config.set("generators." + generator.getId() + ".sound.name", XSound.matchXSound(sound).get().parseSound());
+                config.set("generators." + generator.getId() + ".sound.name", sound);
                 Oregen3.getPlugin().saveConfig();
                 Oregen3.getPlugin().reload();
                 MenuSound ui = new MenuSound(player, generator);

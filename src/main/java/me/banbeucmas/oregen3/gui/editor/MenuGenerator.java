@@ -81,6 +81,12 @@ public class MenuGenerator extends ChestUI {
                 .build(), event -> {
             event.setCancelled(true);
             player.closeInventory();
+            player.sendMessage(new String[] {
+                    "",
+                    "§7Enter permission you want to set",
+                    "§rusing this generator.",
+                    ""
+            });
             Editor.markPermSet(player, generator);
         });
         set(3, 2, new ItemBuilder(XMaterial.PLAYER_HEAD)
@@ -92,6 +98,12 @@ public class MenuGenerator extends ChestUI {
                 .build(), event -> {
             event.setCancelled(true);
             player.closeInventory();
+            player.sendMessage(new String[] {
+                    "",
+                    "§7Enter priority you want to set",
+                    "§rusing this generator.",
+                    ""
+            });
             Editor.markPrioritySet(player, generator);
         });
         set(5, 2, new ItemBuilder(XMaterial.PLAYER_HEAD)
@@ -99,7 +111,16 @@ public class MenuGenerator extends ChestUI {
                 .addLore("", "§7Level: §e" + config.getInt("generators." + generator.getId() + ".level")
                         , "", "§eClick to edit level require.", "")
                 .setSkull("4528ed45802400f465b5c4e3a6b7a9f2b6a5b3d478b6fd84925cc5d988391c7d")
-                .build(), null);
+                .build(), event -> {
+            player.closeInventory();
+            player.sendMessage(new String[] {
+                    "",
+                    "§7Enter level require you want to set",
+                    "§rusing this generator.",
+                    ""
+            });
+            Editor.markLevelSet(player, generator);
+        });
         set(6, 2, new ItemBuilder(XMaterial.PLAYER_HEAD)
                 .setName("§fEdit World(s)")
                 .addLore("", "§eClick to edit world(s)", "")
