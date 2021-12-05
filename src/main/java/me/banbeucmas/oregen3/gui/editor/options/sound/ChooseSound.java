@@ -53,7 +53,6 @@ public class ChooseSound extends ChestUI {
     private void renderPage() {
 
         Configuration config = Oregen3.getPlugin().getConfig();
-        ConfigurationSection path = getPlugin().getConfig().getConfigurationSection("generators." + generator.getId() + ".sound.name");
 
         for (Sound sound : Sound.values()) {
             // Check for no duplication

@@ -71,7 +71,6 @@ public class ListWorlds extends ChestUI {
     private void renderPage() {
 
         Configuration config = Oregen3.getPlugin().getConfig();
-        ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".world.list");
         List<String> worlds = new ArrayList<>();
         List<String> configWorlds = new ArrayList<>();
 
