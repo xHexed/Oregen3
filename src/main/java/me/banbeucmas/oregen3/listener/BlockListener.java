@@ -81,11 +81,11 @@ public class BlockListener implements Listener {
                     return;
                 }
                 event.setCancelled(true);
-                eventHandler.generateBlock(world, source, to, config);
+                eventHandler.generateBlock(world, source, to);
             }
             else if (canGenerateBlock(source, to)) {
                 event.setCancelled(true);
-                eventHandler.generateBlock(world, source, to, config);
+                eventHandler.generateBlock(world, source, to);
             }
         }
     }

@@ -2,7 +2,7 @@ package me.banbeucmas.oregen3.data.permission;
 
 import org.bukkit.OfflinePlayer;
 
-public interface PermissionManager {
+public interface PermissionChecker {
     /**
      * Check if the (offline) player has the provided permission or not
      *

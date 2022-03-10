@@ -53,21 +53,10 @@ hooks:
     # Plugin list that store the permission data async (using database, ...), or you can list other plugins
     pluginAsyncList:
     - LuckPerms
-  BentoBox:
-    # This plugin will check for available gamemode by order. Which addon comes first then it will use that gamemode to check
-    #  for player's island (who knows someone would use 2 gamemode at a time....)
-    # Since BentoBox lets you install many gamemodes, this check is required due to the fact this plugin only hooks into one
-    #  gamemode (maybe fixed later).
-    # If an invalid gamemode is found, the plugin will skip it.
-    gamemodePriorities:
-    - AcidIsland
-    - BSkyBlock
-    - CaveBlock
-    - SkyGrid
 
 global:
   listener:
-    # Will the plugin attempt to generate blocks asynchronously? Turn this on if you're experiencing lag while generating blocks
+    # Generate blocks asynchronously? Turn this on if you experience lag while generating blocks
     asyncListener: false
   generators:
     world:
@@ -81,7 +70,7 @@ global:
       name: BLOCK_FIRE_EXTINGUISH
       volume: 3
       pitch: 2
-    #Set to 0 to disable
+    # Set to 0 to disable
     maxBlockPlacePerTick: 0
 
 generators:

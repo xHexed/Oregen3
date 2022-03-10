@@ -6,10 +6,12 @@ import me.banbeucmas.oregen3.util.PluginUtils;
 import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 
@@ -41,9 +43,16 @@ public class InformationCommand extends AbstractCommand {
                 return ExecutionResult.NO_PLAYER;
             }
             final UUID uuid = player.getUniqueId();
+            World world = null;
+            if (!Oregen3.getHook().isIslandWorldSingle() && args.length < 3) {
+                return ExecutionResult.MISSING_ARGS;
+            }
+            if (args.length > 2) {
+                world = Bukkit.getWorld(args[2]);
+            }
 
-            if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid) == null) {
-                sender.sendMessage(PLAYER.matcher(StringUtils.getColoredPrefixString(config.getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(player.getName())));
+            if (!Oregen3.getPlugin().hasDependency() || PluginUtils.getOwner(uuid, world) == null) {
+                sender.sendMessage(PLAYER.matcher(StringUtils.getColoredPrefixString(config.getString("messages.noIslandOthers"), getPlayer())).replaceAll(Matcher.quoteReplacement(Objects.requireNonNull(player.getName()))));
                 return ExecutionResult.SUCCESS;
             }
 

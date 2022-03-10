@@ -29,7 +29,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
     public GeneratorMaterialList(final Location location, final OfflinePlayer player) {
         int size = 9;
         final Generator mc = PluginUtils.getChosenGenerator(location);
-        final Map<Material, Double> chances = mc.getChances();
+        final Map<String, Double> chances = mc.getRandom();
         if (chances.size() > size) {
             size *= chances.size() / size + 1;
         }
@@ -39,7 +39,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
                                      StringUtils.getColoredString(config.getString("messages.gui.title"), player));
 
         chances.forEach((key, value) -> {
-            final ItemStack display = new ItemStack(key);
+            final ItemStack display = new ItemStack(Material.valueOf(key));
             final ItemMeta meta = display.getItemMeta();
             final double chance = value;
 
@@ -58,8 +58,8 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
 
     public GeneratorMaterialList(final UUID uuid, final OfflinePlayer player) {
         int size = 9;
-        final Generator mc = PluginUtils.getChosenGenerator(uuid);
-        final Map<Material, Double> chances = mc.getChances();
+        final Generator mc = PluginUtils.getChosenGenerator(uuid, null);
+        final Map<String, Double> chances = mc.getRandom();
         if (chances.size() > size) {
             size *= chances.size() / size + 1;
         }
@@ -69,7 +69,7 @@ public class GeneratorMaterialList implements InventoryHolder, InventoryHandler 
                                      StringUtils.getColoredString(config.getString("messages.gui.title"), player));
 
         chances.forEach((key, value) -> {
-            final ItemStack display = new ItemStack(key);
+            final ItemStack display = new ItemStack(Material.valueOf(key));
             final ItemMeta meta = display.getItemMeta();
             final double chance = value;
 

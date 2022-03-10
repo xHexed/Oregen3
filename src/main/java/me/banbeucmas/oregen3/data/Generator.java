@@ -1,26 +1,25 @@
 package me.banbeucmas.oregen3.data;
 
 import com.cryptomorin.xseries.XSound;
+import lombok.AccessLevel;
+import lombok.Getter;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.handler.block.placer.BlockPlacer;
 import me.banbeucmas.oregen3.handler.block.placer.VanillaBlockPlacer;
 import me.banbeucmas.oregen3.hook.blockplacer.OraxenBlockPlacer;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Getter
 public class Generator {
-    private final String id;
-    private final long priority;
-    private final double level;
-    private final String permission;
-    private final String name;
-    private final BlockPlacer[] blockPlacers;
-    private final Double[] chancesList;
-    private double totalChance = 0;
+    private String id;
+    private long priority;
+    private double level;
+    private String permission;
+    private String name;
     private boolean soundEnabled;
     private Sound sound;
     private float soundVolume;
@@ -28,10 +27,16 @@ public class Generator {
     private boolean worldEnabled;
     private boolean worldBlacklist;
     private Set<String> worldList;
+    private Map<String, Double> random;
+    private transient double totalChance;
+    @Getter(value = AccessLevel.NONE)
+    private transient BlockPlacer[] blockPlacers;
+    @Getter(value = AccessLevel.NONE)
+    private transient Double[] chances;
 
-    Generator(final String id) {
+    Generator(final String id, Oregen3 plugin) {
         this.id = id;
-        final ConfigurationSection path = Oregen3.getPlugin().getConfig().getConfigurationSection("generators." + id);
+        final ConfigurationSection path = plugin.getConfig().getConfigurationSection("generators." + id);
 
         name = Objects.requireNonNull(path).getString("name", id);
         permission = path.getString("permission", "oregen3.generator." + id);
@@ -49,89 +54,38 @@ public class Generator {
             worldList      = new HashSet<>(path.getStringList("world.list"));
         }
         final Set<String> randomList = Objects.requireNonNull(path.getConfigurationSection("random")).getKeys(false);
-        chancesList = new Double[randomList.size()];
-        blockPlacers = new BlockPlacer[randomList.size()];
-        int i = 0;
+        random = new HashMap<>();
         for (final String mat : randomList) {
-            final double chance = path.getDouble("random." + mat);
+            random.put(mat, path.getDouble("random" + mat));
+        }
+
+        init();
+    }
+
+    public void init() {
+        chances = new Double[random.size()];
+        blockPlacers = new BlockPlacer[random.size()];
+        int i = 0;
+        for (Map.Entry<String, Double> entry : random.entrySet()) {
+            String mat = entry.getKey();
+            Double chance = entry.getValue();
             if (mat.startsWith("oraxen-")) {
                 blockPlacers[i] = new OraxenBlockPlacer(mat);
-            }
-            else {
+            } else {
                 blockPlacers[i] = new VanillaBlockPlacer(mat);
             }
             totalChance += chance;
-            chancesList[i] = totalChance;
+            chances[i] = totalChance;
             i++;
         }
     }
 
     public BlockPlacer randomChance() {
         final Double chance = ThreadLocalRandom.current().nextDouble(getTotalChance());
-        int chosenBlock = Arrays.binarySearch(getChancesList(), chance);
+        int chosenBlock = Arrays.binarySearch(chances, chance);
         if (chosenBlock < 0) {
             chosenBlock = -(chosenBlock + 1);
         }
         return blockPlacers[chosenBlock];
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public long getPriority() {
-        return priority;
-    }
-
-    public double getLevel() {
-        return level;
-    }
-
-    public double getTotalChance() {
-        return totalChance;
-    }
-
-    public Double[] getChancesList() {
-        return chancesList;
-    }
-
-    public Map<Material, Double> getChances() {
-        return null;
-    }
-
-    public boolean isSoundEnabled() {
-        return soundEnabled;
-    }
-
-    public Sound getSound() {
-        return sound;
-    }
-
-    public float getSoundVolume() {
-        return soundVolume;
-    }
-
-    public float getSoundPitch() {
-        return soundPitch;
-    }
-
-    public boolean isWorldEnabled() {
-        return worldEnabled;
-    }
-
-    public boolean isWorldBlacklist() {
-        return worldBlacklist;
-    }
-
-    public Set<String> getWorldList() {
-        return worldList;
     }
 }

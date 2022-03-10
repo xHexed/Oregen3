@@ -2,10 +2,7 @@ package me.banbeucmas.oregen3;
 
 import me.banbeucmas.oregen3.commands.CommandHandler;
 import me.banbeucmas.oregen3.data.DataManager;
-import me.banbeucmas.oregen3.data.permission.AsyncVaultPermission;
-import me.banbeucmas.oregen3.data.permission.DefaultPermission;
-import me.banbeucmas.oregen3.data.permission.PermissionManager;
-import me.banbeucmas.oregen3.data.permission.VaultPermission;
+import me.banbeucmas.oregen3.data.permission.*;
 import me.banbeucmas.oregen3.handler.block.placetask.BlockPlaceTask;
 import me.banbeucmas.oregen3.handler.block.placetask.LimitedBlockPlaceTask;
 import me.banbeucmas.oregen3.handler.block.placetask.NormalBlockPlaceTask;
@@ -20,7 +17,6 @@ import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,7 +26,7 @@ public final class Oregen3 extends JavaPlugin {
     private static Oregen3 plugin;
     private static SkyblockHook hook;
     private static Permission perm;
-    private static PermissionManager permissionManager;
+    private static PermissionChecker permissionChecker;
     private static BlockEventHandler eventHandler;
     private static BlockPlaceTask blockPlaceTask;
     public boolean papi;
@@ -61,8 +57,8 @@ public final class Oregen3 extends JavaPlugin {
         return perm;
     }
 
-    public static PermissionManager getPermissionManager() {
-        return permissionManager;
+    public static PermissionChecker getPermissionManager() {
+        return permissionChecker;
     }
 
     public static BlockPlaceTask getBlockPlaceHandler() {
@@ -71,14 +67,13 @@ public final class Oregen3 extends JavaPlugin {
 
     public void updateConfig() {
         reloadConfig();
-        final FileConfiguration config = getConfig();
-        eventHandler = config.getBoolean("global.listener.asyncListener", false) ?
+        eventHandler = getConfig().getBoolean("global.listener.asyncListener", false) ?
                 new AsyncBlockEventHandler(this) : new SyncBlockEventHandler();
         if (blockPlaceTask != null) {
             blockPlaceTask.stop();
         }
-        blockPlaceTask = config.getLong("global.generators.maxBlockPlacePerTick", -1) > 0 ?
-                new LimitedBlockPlaceTask(this) : new NormalBlockPlaceTask();
+        blockPlaceTask = getConfig().getLong("global.generators.maxBlockPlacePerTick", -1) > 0 ?
+                new LimitedBlockPlaceTask(this) : new NormalBlockPlaceTask(this);
     }
 
     @Override
@@ -143,7 +138,7 @@ public final class Oregen3 extends JavaPlugin {
             hook     = new uSkyBlockHook();
         }
         else {
-            getLogger().warning(StringUtils.getPrefixString("Plugin dependency for Oregen3 not found! Turning enableDependency off...", null));
+            getLogger().warning("Plugin dependency for Oregen3 not found! Turning enableDependency off...");
             hasDependency = false;
         }
 
@@ -156,15 +151,25 @@ public final class Oregen3 extends JavaPlugin {
     private void setupPermissions() {
         if (getServer().getPluginManager().isPluginEnabled("Vault")) {
             perm              = Objects.requireNonNull(getServer().getServicesManager().getRegistration(Permission.class)).getProvider();
-            permissionManager = new VaultPermission();
+            permissionChecker = new SyncVaultPermissionChecker();
             if (getConfig().getBoolean("hooks.Vault.forceAsync")) {
-                permissionManager = new AsyncVaultPermission(this);
+                if (getConfig().getBoolean("global.listener.asyncListener", false)) {
+                    permissionChecker = new AsyncVaultPermissionChecker();
+                }
+                else {
+                    permissionChecker = new AsyncOnSyncVaultPermissionChecker(this);
+                }
             }
             else {
                 Bukkit.getScheduler().runTask(this, () -> {
                     for (final String s : getConfig().getStringList("hooks.Vault.pluginAsyncList")) {
                         if (getServer().getPluginManager().isPluginEnabled(s)) {
-                            permissionManager = new AsyncVaultPermission(this);
+                            if (getConfig().getBoolean("global.listener.asyncListener", false)) {
+                                permissionChecker = new AsyncVaultPermissionChecker();
+                            }
+                            else {
+                                permissionChecker = new AsyncOnSyncVaultPermissionChecker(this);
+                            }
                             break;
                         }
                     }
@@ -173,7 +178,7 @@ public final class Oregen3 extends JavaPlugin {
         }
         else {
             getLogger().warning(StringUtils.getPrefixString("Vault not found! Offline player's permission will not be checked! Using bukkit's provided one...", null));
-            permissionManager = new DefaultPermission();
+            permissionChecker = new DefaultPermissionChecker();
         }
     }
 

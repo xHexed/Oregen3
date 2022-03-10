@@ -4,9 +4,11 @@ import com.cryptomorin.xseries.XSound;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.DataManager;
 import me.banbeucmas.oregen3.data.Generator;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -24,8 +26,8 @@ public class PluginUtils {
         return Bukkit.getServer().getOfflinePlayer(uuid);
     }
 
-    public static OfflinePlayer getOwner(final UUID uuid) {
-        final UUID p = getHook().getIslandOwner(uuid);
+    public static OfflinePlayer getOwner(final UUID uuid, World world) {
+        final UUID p = getHook().getIslandOwner(uuid, world);
         if (p == null) {
             return null;
         }
@@ -45,7 +47,7 @@ public class PluginUtils {
             case "lowest": {
                 boolean ignore = getPlugin().getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
                 Generator lowestGen = null;
-                for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId())) {
+                for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId(), loc.getWorld())) {
                     final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
                     if (ignore && !p.isOnline()) continue;
                     final Generator chosen = getMaterialChooser(loc, mc, p);
@@ -61,7 +63,7 @@ public class PluginUtils {
             case "highest": {
                 boolean ignore = getPlugin().getConfig().getBoolean("hooks.skyblock.ignoreOfflinePlayers", false);
                 Generator highestGen = null;
-                for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId())) {
+                for (final UUID uuid : getHook().getMembers(Objects.requireNonNull(getOwner(loc)).getUniqueId(), loc.getWorld())) {
                     final OfflinePlayer p = Bukkit.getOfflinePlayer(uuid);
                     if (ignore && !p.isOnline()) continue;
                     final Generator chosen = getMaterialChooser(loc, mc, p);
@@ -78,16 +80,15 @@ public class PluginUtils {
         return mc;
     }
 
-    public static Generator getChosenGenerator(final UUID uuid) {
+    public static Generator getChosenGenerator(final UUID uuid, World world) {
         Generator mc = DataManager.getChoosers().get(getPlugin().getConfig().getString("defaultGenerator"));
         if (getPlugin().hasDependency()) {
-            final UUID p = getHook().getIslandOwner(uuid);
+            final UUID p = getHook().getIslandOwner(uuid, world);
             if (p == null) {
                 return mc;
             }
             for (final Generator chooser : DataManager.getChoosers().values()) {
-                //TODO: Support island-only world?
-                if (Oregen3.getPermissionManager().checkPerm(null, Bukkit.getOfflinePlayer(p), chooser.getPermission())
+                if (Oregen3.getPermissionManager().checkPerm(world.getName(), Bukkit.getOfflinePlayer(p), chooser.getPermission())
                         && chooser.getPriority() >= mc.getPriority()
                         && getHook().getIslandLevel(p, null) >= chooser.getLevel()) {
                     mc = chooser;
@@ -109,14 +110,14 @@ public class PluginUtils {
         return mc;
     }
 
-    public static void sendBlockEffect(final World world, final Block to, final FileConfiguration config, final Generator mc) {
+    public static void sendBlockEffect(final World world, final Block to, final Oregen3 plugin, final Generator mc) {
         if (mc.isSoundEnabled())
             world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
-        else if (config.getBoolean("global.generators.sound.enabled", false)) {
+        else if (plugin.getConfig().getBoolean("global.generators.sound.enabled", false)) {
             world.playSound(to.getLocation(),
-                    Objects.requireNonNull(XSound.matchXSound(config.getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound())),
-                            (float) config.getDouble("global.generators.sound.volume", 1),
-                            (float) config.getDouble("global.generators.sound.pitch", 1)
+                    Objects.requireNonNull(XSound.matchXSound(plugin.getConfig().getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound())),
+                    (float) plugin.getConfig().getDouble("global.generators.sound.volume", 1),
+                    (float) plugin.getConfig().getDouble("global.generators.sound.pitch", 1)
             );
         }
     }

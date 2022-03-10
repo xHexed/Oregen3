@@ -17,10 +17,11 @@ public class DataManager {
     }
 
     public static void loadData() {
+        /*
         unregisterAll();
         Oregen3.getPlugin().getConfig()
                 .getConfigurationSection("generators")
                 .getKeys(false)
-                .forEach(id -> choosers.put(id, new Generator(id)));
+                .forEach(id -> choosers.put(id, new Generator(id)));*/
     }
 }

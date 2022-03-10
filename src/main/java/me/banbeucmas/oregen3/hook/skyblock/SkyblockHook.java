@@ -1,6 +1,7 @@
 package me.banbeucmas.oregen3.hook.skyblock;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,17 +30,29 @@ public interface SkyblockHook {
      * Gets the island owner's uuid with the given uuid.
      *
      * @param uuid the player's uuid
+     * @param world the island's world
      *
      * @return the owner's uuid on this island, or null if found none
      */
-    UUID getIslandOwner(UUID uuid);
+    UUID getIslandOwner(UUID uuid, World world);
 
     /**
      * Gets the uuid list of island members
      *
      * @param uuid the player's uuid
+     * @param world the island's world
      *
      * @return the uuid list of island members
      */
-    List<UUID> getMembers(UUID uuid);
+    List<UUID> getMembers(UUID uuid, World world);
+
+    /**
+     * Gets if all islands are stored in one world
+     * If one world is only used to store islands, the world parameter can be ignored
+     *
+     * @return true if all islands are stored in one world
+     */
+    default boolean isIslandWorldSingle() {
+        return true;
+    }
 }

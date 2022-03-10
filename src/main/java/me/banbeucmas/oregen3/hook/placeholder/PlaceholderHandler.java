@@ -4,8 +4,9 @@ import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.util.PluginUtils;
 import me.banbeucmas.oregen3.util.StringUtils;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -16,18 +17,22 @@ public class PlaceholderHandler extends PlaceholderExpansion {
 
     static {
         identifierHandlers.put("generator", (player, params) -> {
-            final Generator chooser = PluginUtils.getChosenGenerator(player.getUniqueId());
+            World world = null;
+            if (params.length > 0) world = Bukkit.getWorld(params[0]);
+            final Generator chooser = PluginUtils.getChosenGenerator(player.getUniqueId(), world);
             return chooser != null ? chooser.getName() : "";
         });
         identifierHandlers.put("random", (player, params) -> {
             if (params.length < 2) return "0";
-            final Material material = Material.matchMaterial(params[1]);
-            if (material == null) return "0";
-            final Generator chooser = PluginUtils.getChosenGenerator(player.getUniqueId());
+            World world = null;
+            if (params.length > 2) {
+                world = Bukkit.getWorld(params[2]);
+            }
+            final Generator chooser = PluginUtils.getChosenGenerator(player.getUniqueId(), world);
             if (chooser == null)
                 return "0";
-            final Map<Material, Double> chances = chooser.getChances();
-            return chances.containsKey(material) ? StringUtils.DOUBLE_FORMAT.format(chances.get(material)) : "0";
+            final Map<String, Double> chances = chooser.getRandom();
+            return chances.containsKey(params[1]) ? StringUtils.DOUBLE_FORMAT.format(chances.get(params[1])) : "0";
         });
     }
 

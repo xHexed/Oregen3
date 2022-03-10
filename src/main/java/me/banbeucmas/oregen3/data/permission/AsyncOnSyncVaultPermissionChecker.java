@@ -17,11 +17,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-public class AsyncVaultPermission implements PermissionManager, Listener {
+public class AsyncOnSyncVaultPermissionChecker implements PermissionChecker, Listener {
     private final Oregen3 plugin;
     private final Map<String, HashSet<String>> permissionList = new HashMap<>();
 
-    public AsyncVaultPermission(final Oregen3 plugin) {
+    public AsyncOnSyncVaultPermissionChecker(final Oregen3 plugin) {
         this.plugin = plugin;
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -72,21 +72,21 @@ public class AsyncVaultPermission implements PermissionManager, Listener {
 
     @EventHandler(ignoreCancelled = true)
     public void onBlock(final BlockDamageEvent e) {
-        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId());
+        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
         if (player == null) return;
         checkPerms(player);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onJoin(final PlayerJoinEvent e) {
-        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId());
+        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
         if (player == null) return;
         checkPerms(player);
     }
 
     @EventHandler(ignoreCancelled = true)
     public void onCommand(final PlayerCommandPreprocessEvent e) {
-        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId());
+        final OfflinePlayer player = PluginUtils.getOwner(e.getPlayer().getUniqueId(), e.getPlayer().getWorld());
         if (player == null) return;
         checkPerms(player);
     }

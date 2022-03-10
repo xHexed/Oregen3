@@ -6,7 +6,9 @@ import com.songoda.skyblock.island.IslandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,13 +34,14 @@ public class FabledSkyBlockHook implements SkyblockHook {
     }
 
     @Override
-    public UUID getIslandOwner(final UUID uuid) {
+    public UUID getIslandOwner(final UUID uuid, World world) {
         return manager.getIsland(Bukkit.getOfflinePlayer(uuid)).getOwnerUUID();
     }
 
     @Override
-    public List<UUID> getMembers(final UUID uuid) {
-        //TODO: Find a way to get member list
-        return null;
+    public List<UUID> getMembers(final UUID uuid, World world) {
+        List<UUID> members = new ArrayList<>();
+        manager.getPlayersAtIsland(manager.getIslandByUUID(uuid)).forEach((player -> members.add(player.getUniqueId())));
+        return members;
     }
 }

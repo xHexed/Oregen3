@@ -4,6 +4,7 @@ import com.bgsoftware.superiorskyblock.api.SuperiorSkyblockAPI;
 import com.bgsoftware.superiorskyblock.api.island.Island;
 import com.bgsoftware.superiorskyblock.api.wrappers.SuperiorPlayer;
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +24,12 @@ public class SuperiorSkyblockHook implements SkyblockHook {
     }
 
     @Override
-    public UUID getIslandOwner(final UUID uuid) {
+    public UUID getIslandOwner(final UUID uuid, World world) {
         return SuperiorSkyblockAPI.getPlayer(uuid).getIslandLeader().getUniqueId();
     }
 
     @Override
-    public List<UUID> getMembers(final UUID uuid) {
+    public List<UUID> getMembers(final UUID uuid, World world) {
         final List<UUID> list = new ArrayList<>();
         for (final SuperiorPlayer superiorPlayer : SuperiorSkyblockAPI.getPlayer(uuid).getIsland().getIslandMembers(true)) {
             list.add(superiorPlayer.getUniqueId());
