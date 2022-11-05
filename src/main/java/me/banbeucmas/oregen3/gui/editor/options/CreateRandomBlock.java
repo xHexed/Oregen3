@@ -20,18 +20,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CreateRandomBlock {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()).setName("§0").build();
 
-    private static final List<Material> fullItemList = new ArrayList<>();
+    private static final List<Material> BLOCK_MATERIALS;
 
-    private static List<Material> filteredItems;
+    static {
+        BLOCK_MATERIALS = new ArrayList<>();
+
+        for (Material material : Material.values()) {
+            if (!material.isItem() || material.isAir())
+                continue;
+
+            if (material.isBlock()) {
+                BLOCK_MATERIALS.add(material);
+            }
+        }
+
+        BLOCK_MATERIALS.sort(Comparator.comparing(Enum::name));
+    }
 
     public static void open(Player player, Generator generator) {
         RyseInventory blockUI = RyseInventory.builder()
@@ -54,15 +64,6 @@ public class CreateRandomBlock {
                         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
                         List<String> materials = config.getStringList("generators." + generator.getId() + ".random");
 
-                        for (Material value : Material.values()) {
-                            if (value.isAir()) {
-                                continue;
-                            }
-                            fullItemList.add(value);
-                        }
-
-                        filteredItems = fullItemList;
-
                         contents.set(5, 2, IntelligentItem.of(new ItemBuilder(Material.ARROW).setAmount((pagination.isFirst() ? 1 : pagination.page() - 1)).setName("§e <- Previous Page ").build(), event -> {
                             if (pagination.isFirst()) {
                                 MenuGenerator.open(player, generator);
@@ -82,7 +83,7 @@ public class CreateRandomBlock {
                             currentInventory.open(player, pagination.next().page());
                         }));
 
-                        for (Material item : filteredItems) {
+                        for (Material item : BLOCK_MATERIALS) {
                             pagination.addItem(IntelligentItem.of(XMaterial.matchXMaterial(item).parseItem(), event -> {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".random." + item.toString(), 1.0);

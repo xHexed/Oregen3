@@ -30,7 +30,7 @@ public class EditorGUI {
                         pattern.define(
                                 "#########",
                                 "xxxxxxxxx",
-                                "xx1xxxxxx",
+                                "xx1x2x3xx",
                                 "xxxxxxxxx",
                                 "#########"
                         );
@@ -39,12 +39,16 @@ public class EditorGUI {
                         pattern.set('1', IntelligentItem.of(
                                 new ItemBuilder(XMaterial.FURNACE.parseMaterial())
                                     .setName("§7Edit generators")
-                                    .addLore("", "§7Click to edit generators")
+                                    .addLore("", "§7Click to edit generators", "")
                                     .build()
-                                , event -> {
-                                    ListGenerator.open(player);
-                                })
+                                , event -> ListGenerator.open(player))
                         );
+                        pattern.set('2', IntelligentItem.of(
+                                new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial())
+                                        .setName("Global Settings")
+                                        .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
+                                        .build(), event -> {}
+                        ));
                     }
                 })
                 .build(Oregen3.getPlugin());
