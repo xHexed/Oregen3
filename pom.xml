@@ -42,6 +42,10 @@
                                     <pattern>com.cryptomorin.xseries</pattern>
                                     <shadedPattern>me.banbeucmas.xseries</shadedPattern>
                                 </relocation>
+                                <relocation>
+                                    <pattern>com.bgsoftware.common.config</pattern>
+                                    <shadedPattern>me.banbeucmas.common.config</shadedPattern>
+                                </relocation>
                             </relocations>
                         </configuration>
                     </execution>
@@ -92,6 +96,14 @@
         <repository>
             <id>bg-repo</id>
             <url>https://repo.bg-software.com/repository/api/</url>
+        </repository>
+        <repository>
+            <id>bg-common</id>
+            <url>https://repo.bg-software.com/repository/common/</url>
+        </repository>
+        <repository>
+            <id>sonatype-ryse</id>
+            <url>"https://s01.oss.sonatype.org/content/groups/public/"</url>
         </repository>
     </repositories>
 
@@ -183,6 +195,17 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.bgsoftware.common.config</groupId>
+            <artifactId>CommentedConfiguration</artifactId>
+            <version>1.0.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.rysefoxx.inventory</groupId>
+            <artifactId>RyseInventory-Plugin</artifactId>
+            <version>1.5.3</version>
         </dependency>
     </dependencies>
 </project>

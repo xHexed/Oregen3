@@ -54,7 +54,6 @@ public class ChatEventHandler implements Listener {
                     HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
                     String generator = (String) options.get("Generator");
                     String material = (String) options.get("Material");
-                    int index = (int) options.get("Index");
                     if (value < 0.0 || value > 100.0) {
                         player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set chance canceled");
                         Editor.clearPlayerMarking(player);

@@ -1,7 +1,6 @@
 package me.banbeucmas.oregen3.commands;
 
 import me.banbeucmas.oregen3.gui.EditorGUI;
-import me.banbeucmas.oregen3.manager.ui.PlayerUI;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -18,7 +17,7 @@ public class EditCommand extends AbstractCommand {
             return ExecutionResult.NO_PERMISSION;
         }
 
-        final Player p = getPlayer();
+        final Player player = getPlayer();
         final String[] args = getArgs();
         final int length = args.length;
 
@@ -27,7 +26,7 @@ public class EditCommand extends AbstractCommand {
                 return ExecutionResult.NON_PLAYER;
             }
 
-            PlayerUI.openUI(p, new EditorGUI(p));
+            EditorGUI.open(player);
         } else if (length > 1) {
             //TODO: Edit generators using commands
             return ExecutionResult.SUCCESS;

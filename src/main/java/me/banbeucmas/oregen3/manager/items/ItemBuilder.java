@@ -18,14 +18,28 @@ public class ItemBuilder {
 
     private ItemStack stack;
     private Material type;
+    private int amount = 1;
     private String name;
     private List<String> lore = new ArrayList<>();
+    private byte data = 0;
     private PotionType potionType;
-    private boolean glowing;
+    private boolean glowing = false;
     private int customModel = -1;
 
     public ItemBuilder(Material type) {
         this.type = type;
+    }
+
+    public ItemBuilder setAmount(int amount) {
+        if (amount > type.getMaxStackSize())
+            amount = type.getMaxStackSize();
+        this.amount = amount;
+        return this;
+    }
+
+    public ItemBuilder setData(byte data) {
+        this.data = data;
+        return this;
     }
 
     public ItemBuilder setName(String name) {
@@ -126,11 +140,13 @@ public class ItemBuilder {
     }
 
     public ItemStack build() {
-        ItemStack item = stack == null ? new ItemStack(type) : stack;
-
+        ItemStack item = stack == null ? new ItemStack(this.type, this.amount, this.data) : stack;
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
         meta.setLore(lore);
+        if (this.data > 0) {
+            item.setDurability(this.data);
+        }
         if (customModel > 0) {
             meta.setCustomModelData(customModel);
         }
