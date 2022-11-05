@@ -94,7 +94,7 @@ public final class Oregen3 extends JavaPlugin {
         final CommandSender sender = Bukkit.getConsoleSender();
         sender.sendMessage("§7§m-------------§f[Oregen3§f]§7-------------");
         sender.sendMessage("");
-        sender.sendMessage("   §fPlugin made by §eBanbeucmas§f, updated by §exHexed");
+        sender.sendMessage("   §fPlugin made by §eBanbeucmas§f, updated by §exHexed§f, contribute by §eGalaxyVN");
         sender.sendMessage("   §fVersion: §e" + getDescription().getVersion());
         sender.sendMessage("");
         sender.sendMessage("------------------------------------");

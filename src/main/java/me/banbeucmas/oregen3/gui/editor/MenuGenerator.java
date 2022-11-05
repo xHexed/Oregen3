@@ -7,8 +7,10 @@ import io.github.rysefoxx.inventory.plugin.pagination.InventoryContents;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
+import me.banbeucmas.oregen3.editor.Editor;
 import me.banbeucmas.oregen3.gui.editor.options.ListRandomBlock;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
+import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -21,7 +23,7 @@ import java.util.List;
 
 public class MenuGenerator {
 
-    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()).setName("§0").build();
+    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
     public static void open(Player player, Generator generator) {
         RyseInventory menuGenerator = RyseInventory.builder()
@@ -48,8 +50,9 @@ public class MenuGenerator {
                         lore.add("");
                         if (materials.size() > 0) lore.add("§7Random:");
                         for (int mc = 0; mc < materials.size(); mc++) {
-                            lore.add("§6 ● §8" + materials.get(mc) + ":§e " + config.getDouble("generators." + generator.getId() + ".random." + materials.get(mc)));
+                            if (mc < 10) lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + generator.getId() + ".random." + materials.get(mc))) + "%");
                         }
+                        if (materials.size() >= 10) lore.add("§6 ● §8And §e%last §8other block(s)".replace("%last", String.valueOf(materials.size() - 10)));
                         if (materials.size() > 0) lore.add("");
                         meta.setLore(lore);
                         item.setItemMeta(meta);
@@ -63,6 +66,27 @@ public class MenuGenerator {
                                 .setName("§rEdit random blocks")
                                 .addLore("", "§eClick to edit random blocks", "")
                                 .build(), event -> ListRandomBlock.open(player, generator)));
+                        contents.set(2, 4, IntelligentItem.of(new ItemBuilder(XMaterial.NAME_TAG.parseMaterial())
+                                .setName("§rEdit permission")
+                                .addLore("", "§8[§2Left-Click§8]§e to edit permission", "§8[§2Right-Click§8]§e reset to default", "")
+                                .build(),
+                                event -> {
+                                    if (event.isLeftClick()) {
+                                        player.closeInventory();
+                                        player.sendMessage("",
+                                                "§7Please type in chat permission you would like to set",
+                                                "§7Type §ccancel §7to cancel",
+                                                "");
+                                        Editor.markPermissionSet(player, generator);
+                                    }
+                                    if (event.isRightClick()) {
+                                        // TODO: Save config with comments
+                                        config.set("generators." + generator.getId() + ".permission", null);
+                                        Oregen3.getPlugin().saveConfig();
+                                        Oregen3.getPlugin().reload();
+                                        ListGenerator.open(player);
+                                    }
+                        }));
                         for (int i = 0; i < 9; i++) contents.set(4, i, BORDER);
                     }
                 })

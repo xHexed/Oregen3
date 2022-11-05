@@ -24,7 +24,7 @@ import java.util.*;
 
 public class CreateRandomBlock {
 
-    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()).setName("§0").build();
+    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
     private static final List<Material> BLOCK_MATERIALS;
 
@@ -32,7 +32,7 @@ public class CreateRandomBlock {
         BLOCK_MATERIALS = new ArrayList<>();
 
         for (Material material : Material.values()) {
-            if (!material.isItem() || material.isAir())
+            if (!material.isItem() || material.equals(Material.AIR))
                 continue;
 
             if (material.isBlock()) {
@@ -64,30 +64,16 @@ public class CreateRandomBlock {
                         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
                         List<String> materials = config.getStringList("generators." + generator.getId() + ".random");
 
-                        contents.set(5, 2, IntelligentItem.of(new ItemBuilder(Material.ARROW).setAmount((pagination.isFirst() ? 1 : pagination.page() - 1)).setName("§e <- Previous Page ").build(), event -> {
-                            if (pagination.isFirst()) {
-                                MenuGenerator.open(player, generator);
-                                return;
-                            }
-
-                            RyseInventory currentInventory = pagination.inventory();
-                            currentInventory.open(player, pagination.previous().page());
-                        }));
-
-                        contents.set(5, 6, IntelligentItem.of(new ItemBuilder(Material.ARROW).setName("§e Next Page -> ").build(), event -> {
-                            if (pagination.isLast()) {
-                                return;
-                            }
-
-                            RyseInventory currentInventory = pagination.inventory();
-                            currentInventory.open(player, pagination.next().page());
-                        }));
+                        ListGenerator.movePage(player, contents, pagination);
 
                         for (Material item : BLOCK_MATERIALS) {
-                            pagination.addItem(IntelligentItem.of(XMaterial.matchXMaterial(item).parseItem(), event -> {
+                            pagination.addItem(IntelligentItem.of(new ItemBuilder(XMaterial.matchXMaterial(item).parseItem())
+                                            .addLore("", "§eClick to add block", "")
+                                            .build(), event -> {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".random." + item.toString(), 1.0);
                                 Oregen3.getPlugin().saveConfig();
+                                Oregen3.getPlugin().reload();
                                 ListRandomBlock.open(player, generator);
                             }));
                         }

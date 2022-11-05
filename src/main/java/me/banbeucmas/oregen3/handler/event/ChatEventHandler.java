@@ -50,7 +50,7 @@ public class ChatEventHandler implements Listener {
                 }
 
                 EditType type = Editor.chanceSet.get(player.getUniqueId());
-                if (type == EditType.SET_CHANCE) {
+                if (type.equals(EditType.SET_CHANCE)) {
                     HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
                     String generator = (String) options.get("Generator");
                     String material = (String) options.get("Material");
@@ -62,7 +62,30 @@ public class ChatEventHandler implements Listener {
 
                     plugin.getConfig().set("generators." + generator + ".random." + material, value);
                     plugin.saveConfig();
-                    player.sendMessage("§8[§aOregen3§8]§7 Set chance for material §2" + material + "§7 to §6" + message);
+                    plugin.reload();
+                    player.sendMessage("§8[§aOregen3§8]§7 Set chance for material §2" + material + "§7 to §6" + message + "%");
+                    Editor.clearPlayerMarking(player);
+                }
+            });
+        } else if (Editor.editSet.containsKey(player.getUniqueId())) {
+            event.setCancelled(true);
+
+            Bukkit.getScheduler().scheduleSyncDelayedTask(JavaPlugin.getPlugin(Oregen3.class), () -> {
+                if (message.equalsIgnoreCase("cancel")) {
+                    player.sendMessage("§8[§aOregen3§8]§7 Edit cancel!");
+                    Editor.clearPlayerMarking(player);
+                    return;
+                }
+
+                EditType type = Editor.editSet.get(player.getUniqueId());
+                if (type.equals(EditType.SET_PERMISSION)) {
+                    HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
+                    String generator = (String) options.get("Generator");
+
+                    plugin.getConfig().set("generators." + generator + ".permission", message);
+                    plugin.saveConfig();
+                    plugin.reload();
+                    player.sendMessage("§8[§aOregen3§8]§7 Set permission for generator §2" + generator + "§7 to §6" + message);
                     Editor.clearPlayerMarking(player);
                 }
             });

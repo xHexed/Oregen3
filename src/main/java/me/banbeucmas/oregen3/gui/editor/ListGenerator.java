@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class ListGenerator {
 
-    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()).setName("§0").build();
+    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
     public static void open(Player player) {
         RyseInventory listGenerator = RyseInventory.builder()
@@ -38,6 +38,7 @@ public class ListGenerator {
                     @Override
                     public void init(Player player, InventoryContents contents) {
                         Pagination pagination = contents.pagination();
+
                         pagination.setItemsPerPage(36);
                         pagination.iterator(SlotIterator.builder().startPosition(1, 0).type(SlotIterator.SlotIteratorType.HORIZONTAL).build());
 
@@ -47,23 +48,7 @@ public class ListGenerator {
                                 .build(), event -> EditorGUI.open(player)));
                         for (int i = 0; i < 9; i++) contents.set(5, i, BORDER);
 
-                        contents.set(5, 2, IntelligentItem.of(new ItemBuilder(Material.ARROW).setAmount((pagination.isFirst() ? 1 : pagination.page() - 1)).setName("§e <- Previous Page ").build(), event -> {
-                            if (pagination.isFirst()) {
-                                return;
-                            }
-
-                            RyseInventory currentInventory = pagination.inventory();
-                            currentInventory.open(player, pagination.previous().page());
-                        }));
-
-                        contents.set(5, 6, IntelligentItem.of(new ItemBuilder(Material.ARROW).setName("§e Next Page -> ").build(), event -> {
-                            if (pagination.isLast()) {
-                                return;
-                            }
-
-                            RyseInventory currentInventory = pagination.inventory();
-                            currentInventory.open(player, pagination.next().page());
-                        }));
+                        movePage(player, contents, pagination);
 
                         Map<String, Generator> map = DataManager.getChoosers();
                         List<Generator> choosers = new ArrayList<>(map.values());
@@ -85,8 +70,9 @@ public class ListGenerator {
                             lore.add("");
                             lore.add("§7Random:");
                             for (int mc = 0; mc < materials.size(); mc++) {
-                                lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + info.getId() + ".random." + materials.get(mc))) + "%");
+                                if (mc < 10) lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + info.getId() + ".random." + materials.get(mc))) + "%");
                             }
+                            if (materials.size() >= 10) lore.add("§6 ● §8And §e%last §8other block(s)".replace("%last", String.valueOf(materials.size() - 10)));
                             lore.add("");
                             lore.add("§eClick to edit.");
                             meta.setLore(lore);
@@ -100,6 +86,32 @@ public class ListGenerator {
                 })
                 .build(Oregen3.getPlugin());
         listGenerator.open(player);
+    }
+
+    public static void movePage(Player player, InventoryContents contents, Pagination pagination) {
+        contents.set(5, 2, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                .setName("§e <- Previous Page ")
+                .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzQxMzNmNmFjM2JlMmUyNDk5YTc4NGVmYWRjZmZmZWI5YWNlMDI1YzM2NDZhZGE2N2YzNDE0ZTVlZjMzOTQifX19")
+                .build(), event -> {
+            if (pagination.isFirst()) {
+                return;
+            }
+
+            RyseInventory currentInventory = pagination.inventory();
+            currentInventory.open(player, pagination.previous().page());
+        }));
+
+        contents.set(5, 6, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                .setName("§e Next Page -> ")
+                .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTAyZmEzYjJkY2IxMWM2NjM5Y2M5YjkxNDZiZWE1NGZiYzY2NDZkODU1YmRkZTFkYzY0MzUxMjRhMTEyMTVkIn19fQ==")
+                .build(), event -> {
+            if (pagination.isLast()) {
+                return;
+            }
+
+            RyseInventory currentInventory = pagination.inventory();
+            currentInventory.open(player, pagination.next().page());
+        }));
     }
 
 }

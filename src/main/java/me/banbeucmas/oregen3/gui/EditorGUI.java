@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class EditorGUI {
 
-    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()).setName("§0").build();
+    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
     public static void open(Player player) {
         RyseInventory editor = RyseInventory.builder()
@@ -44,7 +44,7 @@ public class EditorGUI {
                                 , event -> ListGenerator.open(player))
                         );
                         pattern.set('2', IntelligentItem.of(
-                                new ItemBuilder(XMaterial.PLAYER_HEAD.parseMaterial())
+                                new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                         .setName("Global Settings")
                                         .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
                                         .build(), event -> {}

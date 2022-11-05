@@ -33,6 +33,10 @@ public class ItemBuilder {
         this.type = type;
     }
 
+    public ItemBuilder(ItemStack stack) {
+        this.stack = stack;
+    }
+
     public ItemBuilder setAmount(int amount) {
         if (amount > type.getMaxStackSize())
             amount = type.getMaxStackSize();

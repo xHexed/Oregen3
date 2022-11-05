@@ -13,6 +13,7 @@ import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.editor.Editor;
 import me.banbeucmas.oregen3.gui.EditorGUI;
+import me.banbeucmas.oregen3.gui.editor.ListGenerator;
 import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
 import me.banbeucmas.oregen3.util.StringUtils;
@@ -34,9 +35,10 @@ import java.util.Map;
 
 public class ListRandomBlock {
 
-    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.BLACK_STAINED_GLASS_PANE.parseMaterial()).setName("§0").build();
+    protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
 
     public static void open(Player player, Generator generator) {
+
         RyseInventory randomUI = RyseInventory.builder()
                 .title("Edit random blocks (%name)".replace("%name", generator.getId()))
                 .rows(6)
@@ -48,43 +50,26 @@ public class ListRandomBlock {
                         pagination.iterator(SlotIterator.builder().startPosition(1, 0).type(SlotIterator.SlotIteratorType.HORIZONTAL).build());
 
                         for (int i = 0; i < 9; i++) contents.set(i, BORDER);
+                        contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
+                                .setName("§e <- Go Back ")
+                                .build(), event -> MenuGenerator.open(player, generator)));
                         for (int i = 0; i < 9; i++) contents.set(5, i, BORDER);
 
-                        contents.set(5, 4, IntelligentItem.of(new ItemBuilder(XMaterial.EMERALD_BLOCK.parseMaterial())
+                        contents.set(5, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                                .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA1NmJjMTI0NGZjZmY5OTM0NGYxMmFiYTQyYWMyM2ZlZTZlZjZlMzM1MWQyN2QyNzNjMTU3MjUzMWYifX19")
                                 .setName("§2Add Block")
                                 .addLore("", "§7Want to add more block? click here!", "")
                                 .build(), event -> CreateRandomBlock.open(player, generator)));
 
-                        contents.set(5, 2, IntelligentItem.of(new ItemBuilder(Material.ARROW).setAmount((pagination.isFirst() ? 1 : pagination.page() - 1)).setName("§e <- Previous Page ").build(), event -> {
-                            if (pagination.isFirst()) {
-                                MenuGenerator.open(player, generator);
-                                return;
-                            }
-
-                            RyseInventory currentInventory = pagination.inventory();
-                            currentInventory.open(player, pagination.previous().page());
-                        }));
-
-                        contents.set(5, 6, IntelligentItem.of(new ItemBuilder(Material.ARROW).setName("§e Next Page -> ").build(), event -> {
-                            if (pagination.isLast()) {
-                                return;
-                            }
-
-                            RyseInventory currentInventory = pagination.inventory();
-                            currentInventory.open(player, pagination.next().page());
-                        }));
+                        ListGenerator.movePage(player, contents, pagination);
 
                         Configuration config = Oregen3.getPlugin().getConfig();
                         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");
                         List<String> materials = new ArrayList<>(path.getKeys(false));
 
-                        double totalChances = 0;
-                        for (String chance : path.getKeys(false)) {
-                            totalChances += path.getDouble(chance);
-                            contents.set(0, 4, new ItemBuilder(XMaterial.CHEST_MINECART.parseMaterial())
-                                    .setName("§7Total Chances: §6" + totalChances)
+                        contents.set(0, 4, new ItemBuilder(XMaterial.CHEST_MINECART.parseMaterial())
+                                    .setName("§7Total Chances: §6" + generator.getTotalChance())
                                     .build());
-                        }
 
                         for (String material : materials) {
 
@@ -123,6 +108,7 @@ public class ListRandomBlock {
                                     // TODO: Save config with comments
                                     config.set("generators." + generator.getId() + ".random." + material, null);
                                     Oregen3.getPlugin().saveConfig();
+                                    Oregen3.getPlugin().reload();
                                     ListRandomBlock.open(player, generator);
                                 }
                             }));
