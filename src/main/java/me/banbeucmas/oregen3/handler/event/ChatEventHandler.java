@@ -10,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -60,6 +61,7 @@ public class ChatEventHandler implements Listener {
                         return;
                     }
 
+                    // TODO: Save config with comments
                     plugin.getConfig().set("generators." + generator + ".random." + material, value);
                     plugin.saveConfig();
                     plugin.reload();
@@ -82,11 +84,49 @@ public class ChatEventHandler implements Listener {
                     HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
                     String generator = (String) options.get("Generator");
 
+                    // TODO: Save config with comments
                     plugin.getConfig().set("generators." + generator + ".permission", message);
                     plugin.saveConfig();
                     plugin.reload();
                     player.sendMessage("§8[§aOregen3§8]§7 Set permission for generator §2" + generator + "§7 to §6" + message);
                     Editor.clearPlayerMarking(player);
+                } else if (type.equals(EditType.SET_PRIORITY)) {
+                    HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
+                    String generator = (String) options.get("Generator");
+
+                    int value;
+                    try {
+                        value = Integer.parseInt(message);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set priority canceled");
+                        Editor.clearPlayerMarking(player);
+                        return;
+                    }
+
+                    // TODO: Save config with comments
+                    plugin.getConfig().set("generators." + generator + ".priority", value);
+                    plugin.saveConfig();
+                    plugin.reload();
+                    player.sendMessage("§8[§aOregen3§8]§7 Set priotiry for generator §2" + generator + "§7 to §6" + value);
+                    Editor.clearPlayerMarking(player);
+                } else if (type.equals(EditType.SET_LEVEL)) {
+                    HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
+                    String generator = (String) options.get("Generator");
+
+                    int value;
+                    try {
+                        value = Integer.parseInt(message);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set level canceled");
+                        Editor.clearPlayerMarking(player);
+                        return;
+                    }
+
+                    // TODO: Save config with comments
+                    plugin.getConfig().set("generators." + generator + ".level", value);
+                    plugin.saveConfig();
+                    plugin.reload();
+                    player.sendMessage("§8[§aOregen3§8]§7 Set level for generator §2" + generator + "§7 to §6" + value);
                 }
             });
         }

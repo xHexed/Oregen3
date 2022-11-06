@@ -25,8 +25,8 @@ public class Editor {
         }.parse());
     }
 
-    public static void markPermissionSet(Player player, Generator generator) {
-        editSet.put(player.getUniqueId(), EditType.SET_PERMISSION);
+    public static void markEditType(Player player, Generator generator, EditType type) {
+        editSet.put(player.getUniqueId(), type);
         optionSet.put(player.getUniqueId(), new Object() {
             HashMap<String, Object> parse() {
                 HashMap<String, Object> options = new HashMap<>();

@@ -69,10 +69,7 @@ public class ListGenerator {
                             lore.add("§7Level: " + info.getLevel());
                             lore.add("");
                             lore.add("§7Random:");
-                            for (int mc = 0; mc < materials.size(); mc++) {
-                                if (mc < 10) lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + info.getId() + ".random." + materials.get(mc))) + "%");
-                            }
-                            if (materials.size() >= 10) lore.add("§6 ● §8And §e%last §8other block(s)".replace("%last", String.valueOf(materials.size() - 10)));
+                            listRandom(config, materials, lore, info);
                             lore.add("");
                             lore.add("§eClick to edit.");
                             meta.setLore(lore);
@@ -114,4 +111,10 @@ public class ListGenerator {
         }));
     }
 
+    public static void listRandom(Configuration config, List<String> materials, List<String> lore, Generator generator) {
+        for (int mc = 0; mc < materials.size(); mc++) {
+            if (mc < 10) lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + generator.getId() + ".random." + materials.get(mc))) + "%");
+        }
+        if (materials.size() >= 10) lore.add("§6 ● §8And §e%last §8other block(s)".replace("%last", String.valueOf(materials.size() - 10)));
+    }
 }

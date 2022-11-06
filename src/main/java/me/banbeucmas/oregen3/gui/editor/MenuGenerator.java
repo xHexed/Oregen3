@@ -8,13 +8,12 @@ import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.editor.Editor;
+import me.banbeucmas.oregen3.editor.type.EditType;
 import me.banbeucmas.oregen3.gui.editor.options.ListRandomBlock;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
-import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -49,10 +48,7 @@ public class MenuGenerator {
                         lore.add("§7Level: " + generator.getLevel());
                         lore.add("");
                         if (materials.size() > 0) lore.add("§7Random:");
-                        for (int mc = 0; mc < materials.size(); mc++) {
-                            if (mc < 10) lore.add("§6 ● §8" + materials.get(mc) + ":§e " + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + generator.getId() + ".random." + materials.get(mc))) + "%");
-                        }
-                        if (materials.size() >= 10) lore.add("§6 ● §8And §e%last §8other block(s)".replace("%last", String.valueOf(materials.size() - 10)));
+                        ListGenerator.listRandom(config, materials, lore, generator);
                         if (materials.size() > 0) lore.add("");
                         meta.setLore(lore);
                         item.setItemMeta(meta);
@@ -62,11 +58,11 @@ public class MenuGenerator {
                                 .setName("§e <- Go Back ")
                                 .build(), event -> ListGenerator.open(player)));
                         contents.set(0, 4, item);
-                        contents.set(2, 2, IntelligentItem.of(new ItemBuilder(XMaterial.COBBLESTONE.parseMaterial())
+                        contents.set(2, 1, IntelligentItem.of(new ItemBuilder(XMaterial.COBBLESTONE.parseMaterial())
                                 .setName("§rEdit random blocks")
                                 .addLore("", "§eClick to edit random blocks", "")
                                 .build(), event -> ListRandomBlock.open(player, generator)));
-                        contents.set(2, 4, IntelligentItem.of(new ItemBuilder(XMaterial.NAME_TAG.parseMaterial())
+                        contents.set(2, 3, IntelligentItem.of(new ItemBuilder(XMaterial.NAME_TAG.parseMaterial())
                                 .setName("§rEdit permission")
                                 .addLore("", "§8[§2Left-Click§8]§e to edit permission", "§8[§2Right-Click§8]§e reset to default", "")
                                 .build(),
@@ -77,7 +73,7 @@ public class MenuGenerator {
                                                 "§7Please type in chat permission you would like to set",
                                                 "§7Type §ccancel §7to cancel",
                                                 "");
-                                        Editor.markPermissionSet(player, generator);
+                                        Editor.markEditType(player, generator, EditType.SET_PERMISSION);
                                     }
                                     if (event.isRightClick()) {
                                         // TODO: Save config with comments
@@ -87,6 +83,29 @@ public class MenuGenerator {
                                         ListGenerator.open(player);
                                     }
                         }));
+                        contents.set(2, 5, IntelligentItem.of(new ItemBuilder(XMaterial.PAPER.parseMaterial())
+                                .setName("§rEdit Level")
+                                .addLore("", "§8[§2Left-Click§8]§e to edit level", "§8[§2Right-Click§8]§e delete level", "")
+                                .build(), event -> {
+                            if (event.isLeftClick()) {
+                                player.closeInventory();
+                                player.sendMessage("",
+                                        "§7Please type in chat level you would like to set",
+                                        "§7Type §ccancel §7to cancel",
+                                        "");
+                                Editor.markEditType(player, generator, EditType.SET_LEVEL);
+                            }
+                            if (event.isRightClick()) {
+                                // TODO: Save config with comments
+                                config.set("generators." + generator.getId() + ".level", null);
+                                Oregen3.getPlugin().saveConfig();
+                                Oregen3.getPlugin().reload();
+                                ListGenerator.open(player);
+                            }
+                        }));
+                        contents.set(2,8, IntelligentItem.of(new ItemBuilder(XMaterial.EXPERIENCE_BOTTLE.parseItem())
+                                .setName("")
+                                .build(), event -> {}));
                         for (int i = 0; i < 9; i++) contents.set(4, i, BORDER);
                     }
                 })
