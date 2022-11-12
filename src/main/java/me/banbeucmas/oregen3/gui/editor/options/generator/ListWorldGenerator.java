@@ -12,9 +12,15 @@ import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
 import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListWorldGenerator {
 
@@ -31,6 +37,7 @@ public class ListWorldGenerator {
                     @Override
                     public void init(Player player, InventoryContents contents) {
                         Pagination pagination = contents.pagination();
+                        pagination.setItemsPerPage(36);
                         pagination.iterator(SlotIterator.builder().startPosition(1, 0).type(SlotIterator.SlotIteratorType.HORIZONTAL).build());
 
                         Configuration config = Oregen3.getPlugin().getConfig();
@@ -59,14 +66,12 @@ public class ListWorldGenerator {
                                 Oregen3.getPlugin().saveConfig();
                                 Oregen3.getPlugin().reload();
                                 contents.updateOrSet(48, DISABLE);
-                                ListWorldGenerator.open(player, generator);
                             } else {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".world.blacklist", true);
                                 Oregen3.getPlugin().saveConfig();
                                 Oregen3.getPlugin().reload();
                                 contents.updateOrSet(48, ENABLE);
-                                ListWorldGenerator.open(player, generator);
                             }
                         });
 
@@ -74,9 +79,26 @@ public class ListWorldGenerator {
                                 .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
                                 .setName("§2Add World")
                                 .addLore("", "§7Want to add more world? click here!", "")
-                                .build(), event -> {}));
+                                .build(), event -> CreateWorldGenerator.open(player, generator)));
 
+                        ListGenerator.movePage(player, contents, pagination);
 
+                        List<String> worlds = config.getStringList("generators." + generator.getId() + ".world.list");
+
+                        for (String world : worlds) {
+                            pagination.addItem(IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
+                                    .setName("§2" + world)
+                                    .addLore("", "§7Click to remove world!", "")
+                                    .build(), event -> {
+                                // TODO: Save config with comments
+                                worlds.remove(world);
+                                config.set("generators." + generator.getId() + ".world.list", worlds);
+                                Oregen3.getPlugin().saveConfig();
+                                Oregen3.getPlugin().reload();
+                                ListWorldGenerator.open(player, generator);
+                            }));
+                        }
                     }
                 })
                 .build(Oregen3.getPlugin());
