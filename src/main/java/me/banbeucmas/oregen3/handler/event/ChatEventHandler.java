@@ -127,6 +127,42 @@ public class ChatEventHandler implements Listener {
                     plugin.saveConfig();
                     plugin.reload();
                     player.sendMessage("§8[§aOregen3§8]§7 Set level for generator §2" + generator + "§7 to §6" + value);
+                } else if (type.equals(EditType.SET_VOLUME)) {
+                    HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
+                    String generator = (String) options.get("Generator");
+
+                    int value;
+                    try {
+                        value = Integer.parseInt(message);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set volume canceled");
+                        Editor.clearPlayerMarking(player);
+                        return;
+                    }
+
+                    // TODO: Save config with comments
+                    plugin.getConfig().set("generators." + generator + ".sound.volume", value);
+                    plugin.saveConfig();
+                    plugin.reload();
+                    player.sendMessage("§8[§aOregen3§8]§7 Set volume for sound generator §2" + generator + "§7 to §6" + value);
+                } else if (type.equals(EditType.SET_PITCH)) {
+                    HashMap<UUID, Object> options = (HashMap<UUID, Object>) Editor.optionSet.get(player.getUniqueId());
+                    String generator = (String) options.get("Generator");
+
+                    int value;
+                    try {
+                        value = Integer.parseInt(message);
+                    } catch (NumberFormatException e) {
+                        player.sendMessage("§8[§aOregen3§8]§7 §cInvalid input, set pitch canceled");
+                        Editor.clearPlayerMarking(player);
+                        return;
+                    }
+
+                    // TODO: Save config with comments
+                    plugin.getConfig().set("generators." + generator + ".sound.pitch", value);
+                    plugin.saveConfig();
+                    plugin.reload();
+                    player.sendMessage("§8[§aOregen3§8]§7 Set pitch for sound generator §2" + generator + "§7 to §6" + value);
                 }
             });
         }

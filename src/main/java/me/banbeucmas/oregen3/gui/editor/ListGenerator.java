@@ -21,10 +21,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ListGenerator {
 
@@ -42,11 +40,11 @@ public class ListGenerator {
                         pagination.setItemsPerPage(36);
                         pagination.iterator(SlotIterator.builder().startPosition(1, 0).type(SlotIterator.SlotIteratorType.HORIZONTAL).build());
 
-                        for (int i = 0; i < 9; i++) contents.set(i, BORDER);
+                        contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
                                 .build(), event -> EditorGUI.open(player)));
-                        for (int i = 0; i < 9; i++) contents.set(5, i, BORDER);
+                        contents.fillRow(45, BORDER);
 
                         movePage(player, contents, pagination);
 

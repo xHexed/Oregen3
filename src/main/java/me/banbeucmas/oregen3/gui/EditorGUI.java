@@ -8,12 +8,10 @@ import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import io.github.rysefoxx.inventory.plugin.pattern.ContentPattern;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
+import me.banbeucmas.oregen3.gui.editor.MenuGlobal;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 public class EditorGUI {
 
@@ -47,8 +45,8 @@ public class EditorGUI {
                                 new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                         .setName("§7Global Settings")
                                         .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
-                                        .build(), event -> {}
-                        ));
+                                        .build(), event -> MenuGlobal.open(player))
+                        );
                     }
                 })
                 .build(Oregen3.getPlugin());

@@ -1,4 +1,4 @@
-package me.banbeucmas.oregen3.gui.editor.options;
+package me.banbeucmas.oregen3.gui.editor.options.generator;
 
 import com.cryptomorin.xseries.XMaterial;
 import io.github.rysefoxx.inventory.plugin.SlotIterator;
@@ -9,15 +9,12 @@ import io.github.rysefoxx.inventory.plugin.pagination.Pagination;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
-import me.banbeucmas.oregen3.gui.EditorGUI;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
-import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -54,11 +51,12 @@ public class CreateRandomBlock {
                         pagination.setItemsPerPage(36);
                         pagination.iterator(SlotIterator.builder().startPosition(1, 0).type(SlotIterator.SlotIteratorType.HORIZONTAL).build());
 
-                        for (int i = 0; i < 9; i++) contents.set(i, BORDER);
+                        contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
                                 .build(), event -> ListGenerator.open(player)));
-                        for (int i = 0; i < 9; i++) contents.set(5, i, BORDER);
+                        contents.fillRow(45, BORDER);
+
 
                         Configuration config = Oregen3.getPlugin().getConfig();
                         ConfigurationSection path = config.getConfigurationSection("generators." + generator.getId() + ".random");

@@ -1,6 +1,5 @@
-package me.banbeucmas.oregen3.gui.editor.options;
+package me.banbeucmas.oregen3.gui.editor.options.generator;
 
-import com.bgsoftware.common.config.CommentedConfiguration;
 import com.cryptomorin.xseries.XMaterial;
 import io.github.rysefoxx.inventory.plugin.SlotIterator;
 import io.github.rysefoxx.inventory.plugin.content.IntelligentItem;
@@ -12,26 +11,19 @@ import io.th0rgal.oraxen.items.OraxenItems;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.editor.Editor;
-import me.banbeucmas.oregen3.gui.EditorGUI;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
 import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
 import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ListRandomBlock {
 
@@ -49,11 +41,11 @@ public class ListRandomBlock {
                         pagination.setItemsPerPage(36);
                         pagination.iterator(SlotIterator.builder().startPosition(1, 0).type(SlotIterator.SlotIteratorType.HORIZONTAL).build());
 
-                        for (int i = 0; i < 9; i++) contents.set(i, BORDER);
+                        contents.fillRow(0, BORDER);
                         contents.set(0, IntelligentItem.of(new ItemBuilder(XMaterial.ARROW.parseMaterial())
                                 .setName("§e <- Go Back ")
                                 .build(), event -> MenuGenerator.open(player, generator)));
-                        for (int i = 0; i < 9; i++) contents.set(5, i, BORDER);
+                        contents.fillRow(45, BORDER);
 
                         contents.set(5, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
                                 .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjA1NmJjMTI0NGZjZmY5OTM0NGYxMmFiYTQyYWMyM2ZlZTZlZjZlMzM1MWQyN2QyNzNjMTU3MjUzMWYifX19")
