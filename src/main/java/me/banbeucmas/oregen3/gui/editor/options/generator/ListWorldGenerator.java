@@ -66,12 +66,14 @@ public class ListWorldGenerator {
                                 Oregen3.getPlugin().saveConfig();
                                 Oregen3.getPlugin().reload();
                                 contents.updateOrSet(48, DISABLE);
+                                ListWorldGenerator.open(player, generator);
                             } else {
                                 // TODO: Save config with comments
                                 config.set("generators." + generator.getId() + ".world.blacklist", true);
                                 Oregen3.getPlugin().saveConfig();
                                 Oregen3.getPlugin().reload();
                                 contents.updateOrSet(48, ENABLE);
+                                ListWorldGenerator.open(player, generator);
                             }
                         });
 
