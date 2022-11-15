@@ -2,11 +2,9 @@ package me.banbeucmas.oregen3.gui.editor;
 
 import com.cryptomorin.xseries.XMaterial;
 import io.github.rysefoxx.inventory.plugin.content.IntelligentItem;
-import io.github.rysefoxx.inventory.plugin.content.IntelligentItemAnimatorType;
+import io.github.rysefoxx.inventory.plugin.content.InventoryContents;
 import io.github.rysefoxx.inventory.plugin.content.InventoryProvider;
 import io.github.rysefoxx.inventory.plugin.enums.TimeSetting;
-import io.github.rysefoxx.inventory.plugin.pagination.IntelligentMaterialAnimator;
-import io.github.rysefoxx.inventory.plugin.pagination.InventoryContents;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;

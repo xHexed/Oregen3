@@ -205,7 +205,7 @@
         <dependency>
             <groupId>io.github.rysefoxx.inventory</groupId>
             <artifactId>RyseInventory-Plugin</artifactId>
-            <version>1.5.3</version>
+            <version>1.5.4</version>
         </dependency>
     </dependencies>
 </project>
