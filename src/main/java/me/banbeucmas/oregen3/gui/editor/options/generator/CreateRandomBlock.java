@@ -42,7 +42,8 @@ public class CreateRandomBlock {
 
     public static void open(Player player, Generator generator) {
         RyseInventory blockUI = RyseInventory.builder()
-                .title("Choose Block You Want")
+                .identifier("ListBlock")
+                .title("Choose Block You Want [p.1]")
                 .rows(6)
                 .provider(new InventoryProvider() {
                     @Override

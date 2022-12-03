@@ -108,6 +108,7 @@ public final class Oregen3 extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new ChatEventHandler(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryUpdateTitleEvent(), this);
 
         this.inventoryManager = new InventoryManager(this);
         this.inventoryManager.invoke();

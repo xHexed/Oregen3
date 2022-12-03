@@ -27,10 +27,14 @@ public class ListWorldGenerator {
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
     protected static IntelligentItem ENABLE = null;
     protected static IntelligentItem DISABLE = null;
+    public static String GENERATOR_ID;
 
     public static void open(Player player, Generator generator) {
+        GENERATOR_ID = generator.getId();
+
         RyseInventory inventory = RyseInventory.builder()
-                .title("Edit world (%name)".replace("%name", generator.getId()))
+                .identifier("ListWorldGenerator")
+                .title("Edit world (%name) [p.1]".replace("%name", generator.getId()))
                 .rows(6)
                 .ignoredSlots(48)
                 .provider(new InventoryProvider() {

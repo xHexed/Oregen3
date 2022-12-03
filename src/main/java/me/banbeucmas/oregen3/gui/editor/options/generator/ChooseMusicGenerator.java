@@ -35,7 +35,8 @@ public class ChooseMusicGenerator {
 
     public static void open(Player player, Generator generator) {
         RyseInventory inventory = RyseInventory.builder()
-                .title("Choose Music You Want")
+                .identifier("ListMusic")
+                .title("Choose Music You Want [p.1]")
                 .rows(6)
                 .provider(new InventoryProvider() {
                     @Override

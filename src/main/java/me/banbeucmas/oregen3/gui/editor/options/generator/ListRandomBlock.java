@@ -28,11 +28,14 @@ import java.util.List;
 public class ListRandomBlock {
 
     protected static final ItemStack BORDER = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
+    public static String GENERATOR_ID;
 
     public static void open(Player player, Generator generator) {
+        GENERATOR_ID = generator.getId();
 
         RyseInventory randomUI = RyseInventory.builder()
-                .title("Edit random blocks (%name)".replace("%name", generator.getId()))
+                .identifier("ListRandomBlock")
+                .title("Edit random blocks (%name) [p.1]".replace("%name", generator.getId()))
                 .rows(6)
                 .provider(new InventoryProvider() {
                     @Override
