@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 
 import java.util.Optional;
 
-public class InventoryUpdateTitleEvent implements Listener {
+public class InventoryOpenHandler implements Listener {
 
     @EventHandler
     public void updateTitle(RyseInventoryOpenEvent event) {

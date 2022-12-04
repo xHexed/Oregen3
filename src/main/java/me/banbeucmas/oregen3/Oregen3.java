@@ -1,6 +1,5 @@
 package me.banbeucmas.oregen3;
 
-import com.bgsoftware.common.config.CommentedConfiguration;
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager;
 import me.banbeucmas.oregen3.commands.CommandHandler;
 import me.banbeucmas.oregen3.data.DataManager;
@@ -22,7 +21,6 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
 import java.util.Objects;
 
 public final class Oregen3 extends JavaPlugin {
@@ -108,7 +106,7 @@ public final class Oregen3 extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new ChatEventHandler(this), this);
-        getServer().getPluginManager().registerEvents(new InventoryUpdateTitleEvent(), this);
+        getServer().getPluginManager().registerEvents(new InventoryOpenHandler(), this);
 
         this.inventoryManager = new InventoryManager(this);
         this.inventoryManager.invoke();
