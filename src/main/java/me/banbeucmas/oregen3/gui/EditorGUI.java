@@ -4,6 +4,7 @@ import com.cryptomorin.xseries.XMaterial;
 import io.github.rysefoxx.inventory.plugin.content.IntelligentItem;
 import io.github.rysefoxx.inventory.plugin.content.InventoryContents;
 import io.github.rysefoxx.inventory.plugin.content.InventoryProvider;
+import io.github.rysefoxx.inventory.plugin.enums.InventoryOptions;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import io.github.rysefoxx.inventory.plugin.pattern.ContentPattern;
 import me.banbeucmas.oregen3.Oregen3;
