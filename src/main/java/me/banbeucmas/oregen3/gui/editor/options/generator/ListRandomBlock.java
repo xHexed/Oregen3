@@ -16,6 +16,7 @@ import me.banbeucmas.oregen3.gui.editor.MenuGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
 import me.banbeucmas.oregen3.util.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -23,7 +24,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class ListRandomBlock {
 
@@ -72,13 +75,39 @@ public class ListRandomBlock {
                                 if (Bukkit.getPluginManager().isPluginEnabled("Oraxen")) {
                                     ItemStack item = OraxenItems.getItemById(material.substring(7)).build();
                                     ItemMeta meta = item.getItemMeta();
+                                    List<String> lore = new ArrayList<>();
+                                    lore.add("");
+                                    lore.add("§7Chances: §6" + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + generator.getId() + ".random." + material)) + "%");
+                                    lore.add("");
+                                    lore.add("§8[§2Left-Click§8]§e to edit chances");
+                                    lore.add("§8[§2Right-Click§8]§e to delete");
+                                    meta.setLore(lore);
                                     item.setItemMeta(meta);
 
-                                    pagination.addItem(item);
-                                } else pagination.addItem(XMaterial.BEDROCK.parseItem());
+                                    editMaterial(player, pagination, config, material, item, generator);
+                                } else {
+                                    ItemStack item = new ItemBuilder(XMaterial.PAPER.parseItem()).setName(material.substring(7)).build();
+                                    ItemMeta meta = item.getItemMeta();
+                                    List<String> lore = new ArrayList<>();
+                                    lore.add("");
+                                    lore.add("§7Chances: §6" + StringUtils.DOUBLE_FORMAT.format(config.getDouble("generators." + generator.getId() + ".random." + material)) + "%");
+                                    lore.add("");
+                                    lore.add("§8[§2Left-Click§8]§e to edit chances");
+                                    lore.add("§8[§2Right-Click§8]§e to delete");
+                                    meta.setLore(lore);
+                                    item.setItemMeta(meta);
+
+                                    editMaterial(player, pagination, config, material, item, generator);
+                                }
+                                // Skip oraxen items
+                                continue;
                             }
 
-                            ItemStack item = XMaterial.matchXMaterial(material).get().parseItem();
+                            Optional<XMaterial> optional = XMaterial.matchXMaterial(material);
+                            if (!optional.isPresent())
+                                return;
+
+                            ItemStack item = optional.get().parseItem();
                             ItemMeta meta = item.getItemMeta();
                             List<String> lore = new ArrayList<>();
                             lore.add("");
@@ -89,28 +118,32 @@ public class ListRandomBlock {
                             meta.setLore(lore);
                             item.setItemMeta(meta);
 
-                            pagination.addItem(IntelligentItem.of(item, event -> {
-                                if (event.isLeftClick()) {
-                                    pagination.inventory().close(player);
-                                    player.sendMessage("",
-                                            "§7Please type in chat how much you're willing to set chance percent",
-                                            "§7Type §ccancel §7to cancel",
-                                            "");
-                                    Editor.markChanceSet(player, generator, material);
-                                }
-
-                                if (event.isRightClick()) {
-                                    // TODO: Save config with comments
-                                    config.set("generators." + generator.getId() + ".random." + material, null);
-                                    Oregen3.getPlugin().saveConfig();
-                                    Oregen3.getPlugin().reload();
-                                    ListRandomBlock.open(player, generator);
-                                }
-                            }));
+                            editMaterial(player, pagination, config, material, item, generator);
                         }
                     }
                 })
                 .build(Oregen3.getPlugin());
         randomUI.open(player);
+    }
+
+    private static void editMaterial(Player player, Pagination pagination, Configuration config, String material, ItemStack item, Generator generator) {
+        pagination.addItem(IntelligentItem.of(item, event -> {
+            if (event.isLeftClick()) {
+                pagination.inventory().close(player);
+                player.sendMessage("",
+                        "§7Please type in chat how much you're willing to set chance percent",
+                        "§7Type §ccancel §7to cancel",
+                        "");
+                Editor.markChanceSet(player, generator, material);
+            }
+
+            if (event.isRightClick()) {
+                // TODO: Save config with comments
+                config.set("generators." + generator.getId() + ".random." + material, null);
+                Oregen3.getPlugin().saveConfig();
+                Oregen3.getPlugin().reload();
+                ListRandomBlock.open(player, generator);
+            }
+        }));
     }
 }

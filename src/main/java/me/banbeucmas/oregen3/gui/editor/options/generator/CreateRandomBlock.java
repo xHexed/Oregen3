@@ -11,6 +11,7 @@ import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.data.Generator;
 import me.banbeucmas.oregen3.gui.editor.ListGenerator;
 import me.banbeucmas.oregen3.manager.items.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
@@ -57,6 +58,23 @@ public class CreateRandomBlock {
                                 .setName("§e <- Go Back ")
                                 .build(), event -> ListGenerator.open(player)));
                         contents.fillRow(45, BORDER);
+
+                        // Oraxen Require
+                        if (Bukkit.getPluginManager().isPluginEnabled("Oraxen")) {
+                            contents.set(5, 4, IntelligentItem.of(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiZGM3YTFkNmNmZjc2YTkyNTU2NTJkMzE2NTUzMjI4NWFjYzNhOWQxYzBmMTJmMzljYTAwNzc2OWE3ZWExNCJ9fX0=")
+                                    .setName("§2Add Oraxen Block")
+                                    .addLore("", "§7Oraxen Supported:§2 Found§7!", "", "§7Want to add oraxen block? click here!", "")
+                                    .build(), event -> CreateRandomOraxen.open(player, generator)
+                            ));
+                        } else {
+                            contents.set(5, 4, IntelligentItem.empty(new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
+                                    .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjhiZGM3YTFkNmNmZjc2YTkyNTU2NTJkMzE2NTUzMjI4NWFjYzNhOWQxYzBmMTJmMzljYTAwNzc2OWE3ZWExNCJ9fX0=")
+                                    .setName("§2Add Oraxen Block")
+                                    .addLore("", "§7Oraxen Supported:§c Not Found§7!", "")
+                                    .build()
+                            ));
+                        }
 
 
                         Configuration config = Oregen3.getPlugin().getConfig();

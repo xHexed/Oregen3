@@ -170,9 +170,9 @@
         <dependency>
             <groupId>com.github.Th0rgal</groupId>
             <artifactId>oraxen</artifactId>
-            <version>1.145.1</version>
+            <version>1.148.2</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/oraxen-1.145.1.jar</systemPath>
+            <systemPath>${project.basedir}/lib/oraxen-1.148.2.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.songoda</groupId>
