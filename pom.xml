@@ -123,7 +123,7 @@
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
-            <version>9.1.0</version>
+            <version>9.2.0</version>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
@@ -205,7 +205,7 @@
         <dependency>
             <groupId>io.github.rysefoxx.inventory</groupId>
             <artifactId>RyseInventory-Plugin</artifactId>
-            <version>1.5.4</version>
+            <version>1.5.5</version>
         </dependency>
     </dependencies>
 </project>
