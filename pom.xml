@@ -158,7 +158,7 @@
         <dependency>
             <groupId>world.bentobox</groupId>
             <artifactId>bentobox</artifactId>
-            <version>1.21.1</version>
+            <version>1.23.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
