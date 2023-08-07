@@ -35,7 +35,7 @@ dependencies {
     compileOnly("com.github.LoneDev6:api-itemsadder:3.4.1-r4")
     compileOnly("com.wasteofplastic:acidisland:3.0.8.2")
 
-    compileOnly("org.projectlombok:lombok:1.18.26")
+    compileOnly("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
 }
 
