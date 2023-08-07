@@ -22,7 +22,7 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.4.0")
     implementation("org.bstats:bstats-bukkit-lite:1.7")
     implementation("com.bgsoftware.common.config:CommentedConfiguration:1.0.3")
-    implementation("io.github.rysefoxx.inventory:RyseInventory-Plugin:1.5.6.2")
+    implementation("io.github.rysefoxx.inventory:RyseInventory-Plugin:1.6.5")
     compileOnly("org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
     compileOnly("me.clip:placeholderapi:2.11.3")
