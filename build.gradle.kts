@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.cryptomorin:XSeries:9.4.0")
+    implementation("com.github.cryptomorin:XSeries:9.5.0")
     implementation("org.bstats:bstats-bukkit-lite:1.7")
     implementation("com.bgsoftware.common.config:CommentedConfiguration:1.0.3")
     implementation("io.github.rysefoxx.inventory:RyseInventory-Plugin:1.5.6.2")
