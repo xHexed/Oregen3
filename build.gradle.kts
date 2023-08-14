@@ -30,7 +30,7 @@ dependencies {
     compileOnly("com.github.rlf:uSkyBlock-API:2.8.3")
     compileOnly("world.bentobox:bentobox:1.24.2-SNAPSHOT")
     compileOnly("com.bgsoftware:SuperiorSkyblockAPI:1.11.1")
-    compileOnly("com.github.Th0rgal:oraxen:1.159.0")
+    compileOnly("com.github.Th0rgal:oraxen:1.160.0")
     compileOnly("com.songoda:skyblock:2.3.30")
     compileOnly("com.github.LoneDev6:api-itemsadder:3.4.1-r4")
     compileOnly("com.wasteofplastic:acidisland:3.0.8.2")
