@@ -28,7 +28,7 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.11.3")
     compileOnly("com.wasteofplastic:askyblock:3.0.9.4")
     compileOnly("com.github.rlf:uSkyBlock-API:2.8.3")
-    compileOnly("world.bentobox:bentobox:1.24.2-SNAPSHOT")
+    compileOnly("world.bentobox:bentobox:2.0.0-SNAPSHOT")
     compileOnly("com.bgsoftware:SuperiorSkyblockAPI:1.11.1")
     compileOnly("com.github.Th0rgal:oraxen:1.160.0")
     compileOnly("com.songoda:skyblock:2.3.30")
