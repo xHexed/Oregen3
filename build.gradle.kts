@@ -24,7 +24,7 @@ dependencies {
     implementation("com.bgsoftware.common.config:CommentedConfiguration:1.0.3")
     compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
-    compileOnly("me.clip:placeholderapi:2.11.3")
+    compileOnly("me.clip:placeholderapi:2.11.4")
     compileOnly("com.wasteofplastic:askyblock:3.0.9.4")
     compileOnly("com.github.rlf:uSkyBlock-API:2.8.3")
     compileOnly("world.bentobox:bentobox:2.0.0-SNAPSHOT")
