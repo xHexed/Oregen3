@@ -25,7 +25,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT") {
         isTransitive = false
     }
-    compileOnly("net.md-5:bungeecord-chat:1.16-R0.4") {
+    compileOnly("net.md-5:bungeecord-chat:1.20-R0.1") {
         isTransitive = false
     }
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
