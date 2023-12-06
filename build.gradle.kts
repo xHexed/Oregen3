@@ -22,7 +22,7 @@ dependencies {
     implementation("com.github.cryptomorin:XSeries:9.7.0")
     implementation("org.bstats:bstats-bukkit-lite:1.7")
     implementation("com.bgsoftware.common.config:CommentedConfiguration:1.0.3")
-    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT") {
+    compileOnly("org.spigotmc:spigot-api:1.20.3-R0.1-SNAPSHOT") {
         isTransitive = false
     }
     compileOnly("net.md-5:bungeecord-chat:1.20-R0.1") {
