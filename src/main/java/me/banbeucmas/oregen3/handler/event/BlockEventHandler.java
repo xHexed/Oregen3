@@ -15,13 +15,13 @@ public abstract class BlockEventHandler {
         this.plugin = plugin;
     }
 
-    public abstract void generateBlock(final World world, final Block block);
+    public abstract void generateBlock(final Block block);
 
-    void generate(final World world, final Block block) {
+    void generate(final Block block) {
         final Generator mc = plugin.getUtils().getChosenGenerator(block.getLocation());
         if (mc == null) return;
         plugin.getBlockPlaceTask().placeBlock(block, mc.randomChance());
-        sendBlockEffect(world, block, mc);
+        sendBlockEffect(block.getWorld(), block, mc);
     }
 
     private void sendBlockEffect(final World world, final Block to, final Generator mc) {
