@@ -53,6 +53,19 @@ global:
     # Generate blocks asynchronously. Turn this on if you experience lag while generating blocks
     asyncListener: false
   generators:
+    # Checks if the block location are suitable to generate right after breaking a block
+    # This ensures consistent generating speed on some generator types instead of waiting for liquid to flow
+    # Might cause more lag as more blocks being generated, highly recommend turning on asyncListener to offset this
+    check-regen:
+      enabled: false
+      # Checks sources for regen after a configurable delay (in ticks)
+      # Put value below 0 to disable a specific mode
+      # Check preventOverrideBlocks option if delay is slower than liquid flow delay
+      # [!] Also requires mode-specific settings (at the start of config file) be enabled
+      mode:
+        waterBlock: 0
+        lavaBlock: 0
+        waterLava: 0
     world:
       enabled: false
       blacklist: true

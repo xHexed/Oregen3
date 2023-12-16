@@ -2,7 +2,7 @@ package me.banbeucmas.oregen3.listener;
 
 import com.cryptomorin.xseries.XBlock;
 import me.banbeucmas.oregen3.Oregen3;
-import me.banbeucmas.oregen3.handler.event.BlockEventHandler;
+import me.banbeucmas.oregen3.util.BlockChecker;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -12,31 +12,30 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockFromToEvent;
 
-import static me.banbeucmas.oregen3.util.BlockChecker.*;
-
 public class BlockListener implements Listener {
     private Oregen3 plugin;
     private final FileConfiguration config;
-    private final BlockEventHandler eventHandler;
 
     public BlockListener(final Oregen3 plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
-        this.eventHandler = plugin.getBlockEventHandler();
     }
 
-    private boolean canGenerateBlock(final Block src, final Block to) {
+    private boolean canGenerateBlock(Block src,
+                                     Block to,
+                                     boolean waterBlock,
+                                     boolean lavaBlock) {
         final Material material = src.getType();
-        for (final BlockFace face : FACES) {
+        for (final BlockFace face : BlockChecker.FACES) {
             final Block check = to.getRelative(face);
             if (plugin.getBlockChecker().isBlock(check)
                     && (XBlock.isWater(material))
-                    && config.getBoolean("mode.waterBlock")) {
+                    && waterBlock) {
                 return true;
             }
             else if (plugin.getBlockChecker().isBlock(check)
                     && (XBlock.isLava(material))
-                    && config.getBoolean("mode.lavaBlock")) {
+                    && lavaBlock) {
                 return true;
             }
         }
@@ -48,10 +47,9 @@ public class BlockListener implements Listener {
      */
     private boolean canGenerate(final Material material, final Block b) {
         final boolean check = XBlock.isWater(material);
-        for (final BlockFace face : FACES) {
+        for (final BlockFace face : BlockChecker.FACES) {
             final Material type = b.getRelative(face).getType();
-            if (((check && XBlock.isLava(type)) || (!check && XBlock.isWater(type)))
-                    && config.getBoolean("mode.waterLava")) {
+            if (((check && XBlock.isLava(type)) || (!check && XBlock.isWater(type)))) {
                 return true;
             }
         }
@@ -78,17 +76,21 @@ public class BlockListener implements Listener {
         if (XBlock.isWater(sourceMaterial) || XBlock.isLava(sourceMaterial)) {
             if ((XBlock.isAir(toMaterial) || XBlock.isWater(toMaterial))
                     && XBlock.isWaterStationary(source)
+                    && config.getBoolean("mode.waterLava")
                     && canGenerate(sourceMaterial, to)
                     && event.getFace() != BlockFace.DOWN) {
-                if (XBlock.isLava(sourceMaterial) && !isSurroundedByWater(to.getLocation())) {
+                if (XBlock.isLava(sourceMaterial) && !BlockChecker.isSurroundedByWater(to.getLocation())) {
                     return;
                 }
                 event.setCancelled(true);
-                eventHandler.generateBlock(world, source, to);
+                plugin.getBlockEventHandler().generateBlock(world, to);
             }
-            else if (canGenerateBlock(source, to)) {
+            else if (canGenerateBlock(source,
+                    to,
+                    config.getBoolean("mode.waterBlock"),
+                    config.getBoolean("mode.lavaBlock"))) {
                 event.setCancelled(true);
-                eventHandler.generateBlock(world, source, to);
+                plugin.getBlockEventHandler().generateBlock(world, to);
             }
         }
     }

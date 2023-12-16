@@ -10,8 +10,8 @@ public class SyncBlockEventHandler extends BlockEventHandler {
     }
 
     @Override
-    public void generateBlock(final World world, final Block source, final Block to) {
-        generate(world, source, to);
+    public void generateBlock(final World world, final Block block) {
+        generate(world, block);
     }
 
     @Override

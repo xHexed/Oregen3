@@ -10,8 +10,8 @@ public class AsyncBlockEventHandler extends BlockEventHandler {
     }
 
     @Override
-    public void generateBlock(final World world, final Block source, final Block to) {
-        plugin.getUtils().runAsyncTask(() -> generate(world, source, to));
+    public void generateBlock(final World world, final Block block) {
+        plugin.getUtils().runAsyncTask(() -> generate(world, block));
     }
 
     @Override

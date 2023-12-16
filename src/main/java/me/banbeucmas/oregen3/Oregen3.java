@@ -13,6 +13,7 @@ import me.banbeucmas.oregen3.handler.event.BlockEventHandler;
 import me.banbeucmas.oregen3.handler.event.SyncBlockEventHandler;
 import me.banbeucmas.oregen3.hook.placeholder.PlaceholderHandler;
 import me.banbeucmas.oregen3.hook.skyblock.*;
+import me.banbeucmas.oregen3.listener.BlockBreakListener;
 import me.banbeucmas.oregen3.listener.BlockListener;
 import me.banbeucmas.oregen3.listener.ChatListener;
 import me.banbeucmas.oregen3.listener.InventoryListener;
@@ -25,6 +26,7 @@ import org.bstats.bukkit.MetricsLite;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -50,6 +52,9 @@ public class Oregen3 extends JavaPlugin {
     private ChatListener chatListener = new ChatListener(this);
     private ConfigManager configManager = new ConfigManager(this);
 
+    @Getter(AccessLevel.NONE)
+    private BlockBreakListener blockBreakListener;
+
     private File configFolder = new File(getDataFolder(), "config.yml");
 
     public void onDisable() {
@@ -65,6 +70,17 @@ public class Oregen3 extends JavaPlugin {
         }
         blockPlaceTask = getConfig().getLong("global.generators.maxBlockPlacePerTick", -1) > 0 ?
                 new LimitedBlockPlaceTask(this) : new NormalBlockPlaceTask(this);
+
+        if (getConfig().getBoolean("global.generators.check-regen.enabled", false)) {
+            if (blockBreakListener == null) {
+                blockBreakListener = new BlockBreakListener(this);
+                getServer().getPluginManager().registerEvents(blockBreakListener, this);
+            }
+        }
+        else if (blockBreakListener != null) {
+            BlockBreakEvent.getHandlerList().unregister(blockBreakListener);
+            blockBreakListener = null;
+        }
     }
 
     @Override
@@ -90,7 +106,7 @@ public class Oregen3 extends JavaPlugin {
         CommandHandler commandHandler = new CommandHandler(this);
         command.setExecutor(commandHandler);
         command.setTabCompleter(commandHandler);
-
+        
         getServer().getPluginManager().registerEvents(new BlockListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(chatListener, this);
