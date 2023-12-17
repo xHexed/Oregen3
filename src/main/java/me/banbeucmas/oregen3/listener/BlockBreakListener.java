@@ -64,11 +64,11 @@ public class BlockBreakListener implements Listener {
         Block block = event.getBlock();
         int delay = checkMode(block, waterBlock, lavaBlock, waterLava);
         if (delay == 0) {
-            plugin.getBlockEventHandler().generateBlock(block.getWorld(), block);
+            plugin.getBlockEventHandler().generateBlock(block);
         }
         else if (delay > 0) {
             plugin.getServer().getScheduler().runTaskLater(plugin,
-                    () -> plugin.getBlockEventHandler().generateBlock(block.getWorld(), block), delay);
+                    () -> plugin.getBlockEventHandler().generateBlock(block), delay);
         }
     }
 }

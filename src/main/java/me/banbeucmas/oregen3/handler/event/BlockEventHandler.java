@@ -15,16 +15,17 @@ public abstract class BlockEventHandler {
         this.plugin = plugin;
     }
 
-    public abstract void generateBlock(final World world, final Block block);
+    public abstract void generateBlock(final Block block);
 
-    void generate(final World world, final Block block) {
+    void generate(final Block block) {
         final Generator mc = plugin.getUtils().getChosenGenerator(block.getLocation());
         if (mc == null) return;
         plugin.getBlockPlaceTask().placeBlock(block, mc.randomChance());
-        sendBlockEffect(world, block, mc);
+        sendBlockEffect(block, mc);
     }
 
-    private void sendBlockEffect(final World world, final Block to, final Generator mc) {
+    private void sendBlockEffect(final Block to, final Generator mc) {
+        World world = to.getWorld();
         if (mc.isSoundEnabled())
             world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
         else if (plugin.getConfig().getBoolean("global.generators.sound.enabled", false)) {

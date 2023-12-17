@@ -1,7 +1,6 @@
 package me.banbeucmas.oregen3.handler.event;
 
 import me.banbeucmas.oregen3.Oregen3;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 
 public class AsyncBlockEventHandler extends BlockEventHandler {
@@ -10,8 +9,8 @@ public class AsyncBlockEventHandler extends BlockEventHandler {
     }
 
     @Override
-    public void generateBlock(final World world, final Block block) {
-        plugin.getUtils().runAsyncTask(() -> generate(world, block));
+    public void generateBlock(final Block block) {
+        plugin.getUtils().runAsyncTask(() -> generate(block));
     }
 
     @Override

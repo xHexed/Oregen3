@@ -4,7 +4,6 @@ import com.cryptomorin.xseries.XBlock;
 import me.banbeucmas.oregen3.Oregen3;
 import me.banbeucmas.oregen3.util.BlockChecker;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -62,7 +61,6 @@ public class BlockListener implements Listener {
         final Block to = event.getToBlock();
         final Material sourceMaterial = source.getType();
         final Material toMaterial = to.getType();
-        final World world = source.getWorld();
 
         if (XBlock.isAir(sourceMaterial))
             return;
@@ -83,14 +81,14 @@ public class BlockListener implements Listener {
                     return;
                 }
                 event.setCancelled(true);
-                plugin.getBlockEventHandler().generateBlock(world, to);
+                plugin.getBlockEventHandler().generateBlock(to);
             }
             else if (canGenerateBlock(source,
                     to,
                     config.getBoolean("mode.waterBlock"),
                     config.getBoolean("mode.lavaBlock"))) {
                 event.setCancelled(true);
-                plugin.getBlockEventHandler().generateBlock(world, to);
+                plugin.getBlockEventHandler().generateBlock(to);
             }
         }
     }
