@@ -1,8 +1,8 @@
 package me.banbeucmas.oregen3.hook.skyblock;
 
-import com.songoda.skyblock.SkyBlock;
-import com.songoda.skyblock.island.Island;
-import com.songoda.skyblock.island.IslandManager;
+import com.craftaro.skyblock.api.SkyBlockAPI;
+import com.craftaro.skyblock.api.island.Island;
+import com.craftaro.skyblock.api.island.IslandManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -16,7 +16,7 @@ public class FabledSkyBlockHook implements SkyblockHook {
     private final IslandManager manager;
 
     public FabledSkyBlockHook() {
-        manager = SkyBlock.getInstance().getIslandManager();
+        manager = SkyBlockAPI.getIslandManager();
     }
 
     @Override
