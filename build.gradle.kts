@@ -19,7 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.cryptomorin:XSeries:10.0.0")
+    implementation("com.github.cryptomorin:XSeries:11.2.0")
     implementation("org.bstats:bstats-bukkit-lite:1.7")
     implementation("com.bgsoftware.common.config:CommentedConfiguration:1.0.3")
     compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT") {
