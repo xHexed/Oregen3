@@ -1,6 +1,7 @@
 package me.banbeucmas.oregen3.util;
 
-import com.cryptomorin.xseries.SkullUtils;
+import com.cryptomorin.xseries.profiles.builder.XSkull;
+import com.cryptomorin.xseries.profiles.objects.Profileable;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -70,7 +71,7 @@ public class ItemBuilder {
                 ItemFlag.HIDE_POTION_EFFECTS, ItemFlag.HIDE_UNBREAKABLE);
         if (meta instanceof SkullMeta) {
             String skull = this.skull;
-            if (skull != null) SkullUtils.applySkin(meta, skull);
+            if (skull != null) XSkull.of(meta).profile(Profileable.detect(skull)).apply();
         }
         item.setItemMeta(meta);
         return item;

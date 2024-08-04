@@ -1,6 +1,7 @@
 package me.banbeucmas.oregen3.util;
 
 import com.cryptomorin.xseries.XBlock;
+import com.cryptomorin.xseries.XTag;
 import me.banbeucmas.oregen3.Oregen3;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -25,7 +26,7 @@ public class BlockChecker {
     }
 
     public boolean isBlock(final Block b) {
-        return XBlock.isOneOf(b, plugin.getConfig().getStringList("blocks"));
+        return XTag.anyMatchString(b.getType().name(), plugin.getConfig().getStringList("blocks"));
     }
 
     public static boolean isSurroundedByWater(final Location loc) {
