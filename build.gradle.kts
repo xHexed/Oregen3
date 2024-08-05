@@ -49,7 +49,7 @@ dependencies {
 }
 
 group = "me.banbeucmas"
-version = "1.8.0"
+version = "1.8.1"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 tasks {
