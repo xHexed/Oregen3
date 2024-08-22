@@ -36,7 +36,7 @@ dependencies {
         isTransitive = false
     }
     compileOnly("com.github.rlf:uSkyBlock-API:3.0.0")
-    compileOnly("world.bentobox:bentobox:2.4.3-SNAPSHOT")
+    compileOnly("world.bentobox:bentobox:2.5.2")
     compileOnly("com.bgsoftware:SuperiorSkyblockAPI:1.11.1")
     compileOnly("com.github.Th0rgal:oraxen:1.172.0")
     compileOnly("com.craftaro:FabledSkyBlock:3.0.4")
