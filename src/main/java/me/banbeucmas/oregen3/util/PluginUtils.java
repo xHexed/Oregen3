@@ -28,6 +28,7 @@ public class PluginUtils {
     }
 
     public OfflinePlayer getOwner(final Location loc) {
+        if (!plugin.hasDependency()) return null;
         final UUID uuid = plugin.getHook().getIslandOwner(loc);
         if (uuid == null) {
             return null;
@@ -36,6 +37,7 @@ public class PluginUtils {
     }
 
     public OfflinePlayer getOwner(final UUID uuid, World world) {
+        if (!plugin.hasDependency()) return null;
         final UUID p = plugin.getHook().getIslandOwner(uuid, world);
         if (p == null) {
             return null;
