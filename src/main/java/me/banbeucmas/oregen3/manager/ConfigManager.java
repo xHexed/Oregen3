@@ -20,6 +20,7 @@ public class ConfigManager {
         action.accept(config);
         try {
             config.save(plugin.getConfigFolder());
+            plugin.reloadConfig();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

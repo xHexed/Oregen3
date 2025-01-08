@@ -77,6 +77,7 @@ public class GeneratorMenu implements InventoryHandler {
                         }
                         else {
                             plugin.getConfigManager().setConfig(config -> config.set("generators." + generator.getId() + ".permission", perm));
+                            generator.setPermission(perm);
                         }
                         player.openInventory(new GeneratorMenu(plugin, generator).getInventory());
                     });
@@ -96,8 +97,10 @@ public class GeneratorMenu implements InventoryHandler {
                             player.sendMessage("Cancelled");
                         } else {
                             try {
+                                long priorityNumber = Long.parseLong(priority);
                                 plugin.getConfigManager().setConfig(config ->
-                                        config.set("generators." + generator.getId() + ".priority", Double.parseDouble(priority)));
+                                        config.set("generators." + generator.getId() + ".priority", priorityNumber));
+                                generator.setPriority(priorityNumber);
                             } catch (NumberFormatException ex) {
                                 player.sendMessage(priority + " is not a number...");
                             }
@@ -121,8 +124,10 @@ public class GeneratorMenu implements InventoryHandler {
                         }
                         else {
                             try {
+                                double levelNum = Double.parseDouble(level);
                                 plugin.getConfigManager().setConfig(config ->
-                                        config.set("generators." + generator.getId() + ".level", Double.parseDouble(level)));
+                                        config.set("generators." + generator.getId() + ".level", levelNum));
+                                generator.setLevel(levelNum);
                             } catch (NumberFormatException ex) {
                                 player.sendMessage(level + " is not a number...");
                             }

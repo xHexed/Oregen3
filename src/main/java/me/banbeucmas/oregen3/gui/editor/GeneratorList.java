@@ -47,6 +47,7 @@ public class GeneratorList extends PagedInventory<Generator> {
                 else {
                     plugin.getConfigManager().setConfig((config) ->
                             config.set("generators." + name + ".random.COBBLESTONE", 100));
+                    plugin.getDataManager().loadData();
                 }
                 event.getWhoClicked().openInventory(new GeneratorList(plugin, getPage()).getInventory());
             });
