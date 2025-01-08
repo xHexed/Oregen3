@@ -49,8 +49,8 @@ dependencies {
     compileOnly("com.wasteofplastic:acidisland:3.0.8.2")
     compileOnly("com.iridium:IridiumSkyblock:4.0.9.1")
 
-    compileOnly("org.projectlombok:lombok:1.18.34")
-    annotationProcessor("org.projectlombok:lombok:1.18.34")
+    compileOnly("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
 }
 
 group = "me.banbeucmas"
