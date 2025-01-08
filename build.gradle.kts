@@ -1,6 +1,6 @@
 plugins {
     `java-library`
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.gradleup.shadow") version "8.3.5"
 }
 
 repositories {
@@ -15,7 +15,12 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/public/")
     maven("https://repo.bg-software.com/repository/api/")
     maven("https://repo.bg-software.com/repository/common/")
-    maven("https://nexus.iridiumdevelopment.net/repository/maven-releases/")
+    // Bug: cant GET the files...
+    //maven("https://nexus.iridiumdevelopment.net/repository/maven-releases/")
+
+    flatDir {
+        dirs("lib")
+    }
 }
 
 dependencies {
@@ -36,7 +41,7 @@ dependencies {
         isTransitive = false
     }
     compileOnly("com.github.rlf:uSkyBlock-API:3.0.0")
-    compileOnly("world.bentobox:bentobox:2.7.0")
+    compileOnly("world.bentobox:bentobox:2.7.0-SNAPSHOT")
     compileOnly("com.bgsoftware:SuperiorSkyblockAPI:1.11.1")
     compileOnly("com.github.Th0rgal:oraxen:1.172.0")
     compileOnly("com.craftaro:FabledSkyBlock:3.0.4")
@@ -50,7 +55,10 @@ dependencies {
 
 group = "me.banbeucmas"
 version = "1.8.1"
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+    sourceCompatibility = JavaVersion.VERSION_1_8
+}
 
 tasks {
     processResources {
