@@ -15,13 +15,20 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneratorAddRandomBlock extends PagedInventory<Material> {
-    private static final List<Material> BLOCK_MATERIALS = new ArrayList<>();
+public class GeneratorAddRandomBlock extends PagedInventory<GeneratorAddRandomBlock.DisplayableBlock> {
+    private static final List<DisplayableBlock> BLOCK_MATERIALS = new ArrayList<>();
 
     static {
         for (Material material : Material.values()) {
-            if (material.isBlock()) {
-                BLOCK_MATERIALS.add(material);
+            // Two values for now...
+            if (material.equals(XMaterial.WATER.get())) {
+                BLOCK_MATERIALS.add(new DisplayableBlock(material, XMaterial.WATER_BUCKET.get()));
+            }
+            else if (material.equals(XMaterial.LAVA.get())) {
+                BLOCK_MATERIALS.add(new DisplayableBlock(material, XMaterial.LAVA_BUCKET.get()));
+            }
+            else if (material.isBlock()) {
+                BLOCK_MATERIALS.add(new DisplayableBlock(material, material));
             }
         }
     }
@@ -40,14 +47,22 @@ public class GeneratorAddRandomBlock extends PagedInventory<Material> {
     }
 
     @Override
-    public ItemStack getContentIcon(Material item) {
-        return new ItemBuilder(item).addLore("", "§eClick to add block", "").build();
+    public ItemStack getContentIcon(DisplayableBlock item) {
+        return buildIcon(item.display, item.block);
+    }
+
+    private ItemStack buildIcon(Material material, Material real) {
+        try {
+            return new ItemBuilder(material).setName(real.name()).addLore("", "§eClick to add block", "").build();
+        } catch (IllegalArgumentException e) {
+            return new ItemBuilder(XMaterial.BARRIER.get()).setName(real.name()).addLore("§7*Block cant be displayed in inventory*", "§eClick to add block", "").build();
+        }
     }
 
     @Override
-    public void getContentAction(Material material, InventoryClickEvent event) {
+    public void getContentAction(DisplayableBlock material, InventoryClickEvent event) {
         if (event.isLeftClick()) {
-            addBlock(material, event, 1.0);
+            addBlock(material.block, event, 1.0);
         } else if (event.isRightClick()) {
             HumanEntity player = event.getWhoClicked();
             player.sendMessage("Type chance of new block " + material + "in generator " + generator.getId() + ", or cancel to abort");
@@ -56,7 +71,7 @@ public class GeneratorAddRandomBlock extends PagedInventory<Material> {
                     player.sendMessage("Cancelled");
                 } else {
                     try {
-                        addBlock(material, event, Double.parseDouble(chance));
+                        addBlock(material.block, event, Double.parseDouble(chance));
                     } catch (NumberFormatException ex) {
                         player.sendMessage(chance + " is not a number...");
                     }
@@ -93,6 +108,16 @@ public class GeneratorAddRandomBlock extends PagedInventory<Material> {
                             .addLore("§7Click to add random ItemsAdder block")
                             .build(),
                     event -> event.getWhoClicked().openInventory(new GeneratorAddRandomItemsAdder(plugin, generator).getInventory()));
+        }
+    }
+
+    public static class DisplayableBlock {
+        private final Material block;
+        private final Material display;
+
+        public DisplayableBlock(Material block, Material display) {
+            this.block = block;
+            this.display = display;
         }
     }
 }
