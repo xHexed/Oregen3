@@ -25,11 +25,11 @@ public class GeneratorMenu implements InventoryHandler {
         inv = Bukkit.createInventory(this, 9, "Generator: " + generator.getId());
         inv.setItem(0, GUICommons.createGeneratorIcon(generator).build());
         inv.setItem(1, GUICommons.BORDER_ICON);
-        inv.setItem(2, new ItemBuilder(XMaterial.COBBLESTONE.parseMaterial())
+        inv.setItem(2, new ItemBuilder(XMaterial.COBBLESTONE.get())
                 .setName("§rEdit random blocks")
                 .addLore("", "§eClick to open random blocks", "")
                 .build());
-        inv.setItem(3, new ItemBuilder(XMaterial.NAME_TAG.parseMaterial())
+        inv.setItem(3, new ItemBuilder(XMaterial.NAME_TAG.get())
                 .setName("§rEdit permission")
                 .addLore("", "§7Current permission:§e " + generator.getPermission(), "", "§8[§2Left-Click§8]§e to edit permission", "§8[§2Right-Click§8]§e reset to default", "")
                 .build());
@@ -37,11 +37,11 @@ public class GeneratorMenu implements InventoryHandler {
                 .setName("§rEdit Priority")
                 .addLore("", "§7Current priority:§e " + generator.getPriority(), "", "§8[§2Left-Click§8]§e to edit priority", "§8[§2Right-Click§8]§e delete priority", "")
                 .build());
-        inv.setItem(5, new ItemBuilder(XMaterial.EXPERIENCE_BOTTLE.parseMaterial())
+        inv.setItem(5, new ItemBuilder(XMaterial.EXPERIENCE_BOTTLE.get())
                 .setName("§rEdit Level")
                 .addLore("", "§7Current level:§e " + generator.getLevel(), "", "§8[§2Left-Click§8]§e to edit level", "§8[§2Right-Click§8]§e delete level", "")
                 .build());
-        inv.setItem(6, new ItemBuilder(XMaterial.JUKEBOX.parseMaterial())
+        inv.setItem(6, new ItemBuilder(XMaterial.JUKEBOX.get())
                 .setName("§rEdit music")
                 .addLore("", "§eClick to open music", "")
                 .build());
@@ -49,7 +49,7 @@ public class GeneratorMenu implements InventoryHandler {
                 .setName("§rEdit Worlds")
                 .setSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDM0NjdhNTMxOTc4ZDBiOGZkMjRmNTYyODVjNzI3MzRkODRmNWVjODhlMGI0N2M0OTMyMzM2Mjk3OWIzMjNhZiJ9fX0=")
                 .build());
-        inv.setItem(8, new ItemBuilder(XMaterial.ARROW.parseMaterial())
+        inv.setItem(8, new ItemBuilder(XMaterial.ARROW.get())
                 .setName("§e<- Go Back")
                 .build());
     }

@@ -9,8 +9,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class GUICommons {
-    public static final ItemStack BORDER_ICON = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.parseItem()).setName("§0").build();
-    public static final ItemStack GO_BACK_ICON = new ItemBuilder(XMaterial.ARROW.parseMaterial()).setName("§e<- Go Back ").build();
+    public static final ItemStack BORDER_ICON = new ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE.get()).setName("§0").build();
+    public static final ItemStack GO_BACK_ICON = new ItemBuilder(XMaterial.ARROW.get()).setName("§e<- Go Back ").build();
 
     public static final ItemStack NEXT_PAGE_ICON = new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())
             .setName("§eNext Page ->")

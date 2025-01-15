@@ -30,7 +30,7 @@ public abstract class BlockEventHandler {
             world.playSound(to.getLocation(), mc.getSound(), mc.getSoundVolume(), mc.getSoundPitch());
         else if (plugin.getConfig().getBoolean("global.generators.sound.enabled", false)) {
             world.playSound(to.getLocation(),
-                    Objects.requireNonNull(XSound.matchXSound(plugin.getConfig().getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::parseSound).orElse(XSound.BLOCK_FIRE_EXTINGUISH.parseSound())),
+                    Objects.requireNonNull(XSound.of(plugin.getConfig().getString("global.generators.sound.name", "BLOCK_FIRE_EXTINGUISH")).map(XSound::get).orElse(XSound.BLOCK_FIRE_EXTINGUISH.get())),
                     (float) plugin.getConfig().getDouble("global.generators.sound.volume", 1),
                     (float) plugin.getConfig().getDouble("global.generators.sound.pitch", 1)
             );

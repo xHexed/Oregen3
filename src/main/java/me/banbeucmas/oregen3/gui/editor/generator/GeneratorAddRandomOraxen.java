@@ -29,7 +29,7 @@ public class GeneratorAddRandomOraxen extends PagedInventory<String> {
 
     @Override
     public ItemStack getContentIcon(String item) {
-        return new ItemBuilder(XMaterial.NOTE_BLOCK.parseMaterial()).addLore("§eClick to add block").build();
+        return new ItemBuilder(XMaterial.NOTE_BLOCK.get()).addLore("§eClick to add block").build();
     }
 
     @Override

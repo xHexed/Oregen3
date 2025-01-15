@@ -8,7 +8,7 @@ public class VanillaBlockPlacer implements BlockPlacer {
     Material material;
 
     public VanillaBlockPlacer(String mat) {
-        XMaterial.matchXMaterial(mat).ifPresent((m) -> material = m.parseMaterial());
+        XMaterial.matchXMaterial(mat).ifPresent((m) -> material = m.get());
     }
 
     @Override

@@ -16,7 +16,7 @@ public class GlobalGeneratorSettings implements InventoryHandler {
     public GlobalGeneratorSettings(Oregen3 plugin) {
         this.plugin = plugin;
         inv = Bukkit.createInventory(this, 9, "Global Settings");
-        inv.setItem(8, new ItemBuilder(XMaterial.ARROW.parseMaterial())
+        inv.setItem(8, new ItemBuilder(XMaterial.ARROW.get())
                 .setName("§e<- Go Back")
                 .build());
         inv.setItem(2, new ItemBuilder(XMaterial.PLAYER_HEAD.parseItem())

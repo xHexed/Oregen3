@@ -16,7 +16,7 @@ public class EditorGUI implements InventoryHandler {
     public EditorGUI(Oregen3 plugin) {
         this.plugin = plugin;
         inv = Bukkit.createInventory(this, 9, "Editor Gui");
-        inv.setItem(0, new ItemBuilder(XMaterial.FURNACE.parseMaterial())
+        inv.setItem(0, new ItemBuilder(XMaterial.FURNACE.get())
                 .setName("§7Edit generators")
                 .addLore("§7Click to edit generators")
                 .build());
