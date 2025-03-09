@@ -15,8 +15,7 @@ repositories {
     maven("https://repo.extendedclip.com/content/repositories/public/")
     maven("https://repo.bg-software.com/repository/api/")
     maven("https://repo.bg-software.com/repository/common/")
-    // Bug: cant GET the files...
-    //maven("https://nexus.iridiumdevelopment.net/repository/maven-releases/")
+    maven("https://nexus.iridiumdevelopment.net/repository/maven-releases/")
 
     flatDir {
         dirs("lib")
