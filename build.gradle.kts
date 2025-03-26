@@ -30,7 +30,7 @@ dependencies {
         exclude("junit", "junit")
         exclude("org.yaml", "snakeyaml")
     }
-    compileOnly("net.md-5:bungeecord-chat:1.20-R0.2") {
+    compileOnly("net.md-5:bungeecord-chat:1.21-R0.1") {
         isTransitive = false
     }
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
