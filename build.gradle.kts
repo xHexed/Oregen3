@@ -46,7 +46,7 @@ dependencies {
     compileOnly("com.craftaro:FabledSkyBlock:3.0.4")
     compileOnly("com.github.LoneDev6:api-itemsadder:3.6.1")
     compileOnly("com.wasteofplastic:acidisland:3.0.8.2")
-    compileOnly("com.iridium:IridiumSkyblock:4.0.9.1")
+    compileOnly("com.iridium:IridiumSkyblock:4.1.0")
 
     compileOnly("org.projectlombok:lombok:1.18.36")
     annotationProcessor("org.projectlombok:lombok:1.18.36")
