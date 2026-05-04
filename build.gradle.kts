@@ -34,7 +34,7 @@ dependencies {
         isTransitive = false
     }
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
-    compileOnly("me.clip:placeholderapi:2.11.6")
+    compileOnly("me.clip:placeholderapi:2.12.2")
     compileOnly("com.wasteofplastic:askyblock:3.0.9.4")
     compileOnly("ovh.uskyblock:uSkyBlock-Core:3.0.0") {
         isTransitive = false
