@@ -24,7 +24,7 @@ repositories {
 
 dependencies {
     implementation("com.github.cryptomorin:XSeries:13.6.0")
-    implementation("org.bstats:bstats-bukkit-lite:1.7")
+    implementation("org.bstats:bstats-bukkit-lite:1.8")
     implementation("com.bgsoftware.common.config:CommentedConfiguration:1.0.3")
     compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT") {
         exclude("junit", "junit")
